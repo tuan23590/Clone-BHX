@@ -83,3 +83,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+step 1: create "docker-compose.yml" and run 
+
+step 2: create modle "nest g resource user --no-spec" "user" is name of modle, relay etity to schemas
+
+step 3: intall .env nestjs Configuration "npm i --save @nestjs/config"
