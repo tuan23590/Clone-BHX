@@ -13,6 +13,27 @@ export class User {
 
   @Prop()
   married: boolean;
+
+  @Prop()
+  phone: string;
+
+  @Prop()
+  password: string;
+
+  @Prop()
+  email: string;
+
+  @Prop({ default: false })
+  isActivated: boolean;
+
+  @Prop()
+  activationCode: string;
+
+  @Prop({ default: 'LOCAL' })
+  acountType: string;
+
+  @Prop({ default: 'USER' })
+  role: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

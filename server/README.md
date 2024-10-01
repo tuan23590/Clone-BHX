@@ -89,3 +89,7 @@ step 1: create "docker-compose.yml" and run
 step 2: create modle "nest g resource users --no-spec" "users" is name of modle, relay etity to "schemas"
 
 step 3: intall .env nestjs Configuration "npm i --save @nestjs/config"
+
+step 4: write dto of modules.
+
+step 5: write CRUD user
