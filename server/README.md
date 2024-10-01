@@ -86,6 +86,6 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 step 1: create "docker-compose.yml" and run 
 
-step 2: create modle "nest g resource user --no-spec" "user" is name of modle, relay etity to schemas
+step 2: create modle "nest g resource users --no-spec" "users" is name of modle, relay etity to "schemas"
 
 step 3: intall .env nestjs Configuration "npm i --save @nestjs/config"
