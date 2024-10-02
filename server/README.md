@@ -93,3 +93,5 @@ step 3: intall .env nestjs Configuration "npm i --save @nestjs/config"
 step 4: write dto of modules.
 
 step 5: write CRUD user
+
+step 6: setup JWT
