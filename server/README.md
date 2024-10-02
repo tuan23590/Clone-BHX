@@ -94,4 +94,6 @@ step 4: write dto of modules.
 
 step 5: write CRUD user
 
-step 6: setup JWT
+step 6: setup JWT token
+
+step 7: setup GUARD-passport
