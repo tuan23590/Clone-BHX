@@ -6,10 +6,18 @@ import { User } from './schemas/user.schemas';
 import { InjectModel } from '@nestjs/mongoose';
 import { hashPassword } from '@/utils/handlePassword';
 import aqp from 'api-query-params';
+import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
+import dayjs from 'dayjs';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name)
+    private userModel: Model<User>,
+
+    private readonly mailerService: MailerService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const isEmailExist = await this.isEmailExist(createUserDto.email);
@@ -109,5 +117,40 @@ export class UsersService {
   async isEmailExist(email: string) {
     const user = await this.userModel.exists({ email });
     return user ? true : false;
+  }
+
+  async register(registerDto: CreateAuthDto) {
+    const isEmailExist = await this.isEmailExist(registerDto.email);
+    if (isEmailExist)
+      throw new BadRequestException(`Email ${registerDto.email} đã tồn tại`);
+
+    const hashPW = await hashPassword(registerDto.password);
+    registerDto.password = hashPW;
+
+    const user = new this.userModel({
+      ...registerDto,
+      // random activation code with 6 numbers
+      activationCode: Math.floor(100000 + Math.random() * 900000).toString(),
+      codeExpired: dayjs().add(5, 'minutes').toDate(),
+    });
+    await user.save();
+
+    this.mailerService.sendMail({
+      to: registerDto.email,
+      subject: 'Xác thực tài khoản',
+      template: 'register',
+      context: {
+        name: registerDto.name || user.email,
+        activationCode: user.activationCode,
+      },
+    });
+
+    return {
+      statusCode: 200,
+      message: 'Tạo tài khoản thành công',
+      data: {
+        _id: user._id,
+      },
+    };
   }
 }

@@ -97,3 +97,5 @@ step 5: write CRUD user
 step 6: setup JWT token
 
 step 7: setup GUARD-passport
+
+step 8 send mail npm i @nestjs-modules/mailer npm i nodemailer npm i handlebars

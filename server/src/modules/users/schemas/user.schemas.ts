@@ -29,6 +29,9 @@ export class User {
   @Prop()
   activationCode: string;
 
+  @Prop()
+  codeExpired: Date;
+
   @Prop({ default: 'LOCAL' })
   acountType: string;
 
