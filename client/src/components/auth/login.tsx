@@ -9,12 +9,6 @@ const LoginPageClient = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    // await signIn("credentials", {
-    //   email,
-    //   password,
-    //   redirect: false,
-    // });
-
     const res = await authenticate(email, password);
     console.log("res: ",res);
   };

@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { InvalidEmailPasswordError } from "./utils/errors";
+import { sendRequest } from "./utils/api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -7,32 +9,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        email: {},
+        username: {},
         password: {},
       },
       authorize: async (credentials) => {
         let user = null;
-
-        // // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(credentials.password)
-
-        // // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash)
-        // user = {
-        //   _id: "123",
-        //   username: "123",
-        //   email: "123",
-        //   isVerify: "123",
-        //   type: "123",
-        //   role: "123",
-        // };
-        if (!user) {
-          // No user found, so this is their first attempt to login
-          // meaning this is also the place you could do registration
-          throw new Error("User not found.");
+        console.log("credentials", credentials);
+        try {
+          user = await sendRequest({
+            method: "POST",
+            url: "http://localhost:4000/api/v1/auth/login",
+            body: {
+              username: credentials.username,
+              password: credentials.password,
+            },
+          });
+        } catch (error) {
+          console.error("Error: ", error);
         }
+       
+        console.log("user: ",user);
 
-        // return user object with their profile data
+        if (!user) {
+          throw new InvalidEmailPasswordError();
+        }
         return user;
       },
     }),
