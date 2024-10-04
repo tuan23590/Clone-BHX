@@ -1,16 +1,23 @@
 "use client";
 import { authenticate } from "@/utils/action";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const LoginPageClient = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
   const handleLogin = async () => {
     const res = await authenticate(email, password);
-    console.log("res: ",res);
+    if (res?.error) {
+      alert(res.error);
+      if (res.code ===2) {
+        router.push("/verify");
+      }
+    } else {
+      router.push("/dashboard");
+    }
   };
   return (
     <Box

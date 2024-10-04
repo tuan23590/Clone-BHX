@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './passport/local-auth.guard';
-import { Public } from '@/decorator/public';
+import { Public, ResponseMessage } from '@/decorator/public';
 import { CreateAuthDto } from './dto/create-auth.dto';
 
 @Controller('auth')
@@ -11,6 +11,7 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @ResponseMessage('Failed to login')
   handleLogin(@Request() req) {
     return this.authService.login(req.user);
   }
