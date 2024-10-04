@@ -1,10 +1,8 @@
-import LoginPageClient from '@/components/auth/login'
-import React from 'react'
+import LoginPageClient from "@/components/auth/login";
+import React from "react";
 
 const LoginPage = () => {
-  return (
-    <LoginPageClient />
-  )
-}
+  return <LoginPageClient />;
+};
 
-export default LoginPage
+export default LoginPage;
