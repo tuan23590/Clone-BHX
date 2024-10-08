@@ -11,6 +11,14 @@ async function bootstrap() {
     whitelist: true, // xóa các trường không được khai báo trong DTO
     forbidNonWhitelisted: true, // trả về lỗi nếu có trường không được khai báo trong DTO
   }));
+
+  app.enableCors({
+    'origin': true,
+    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    'preflightContinue': false,
+    'credentials': true,
+  });
+
   await app.listen(configService.get<number>('PORT'));
 }
 bootstrap();

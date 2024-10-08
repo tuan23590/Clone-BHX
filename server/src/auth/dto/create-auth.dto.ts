@@ -8,6 +8,9 @@ export class CreateAuthDto {
   @IsNotEmpty({ message: 'Mật khẩu không được để trống' })
   password: string;
   
+  @IsNotEmpty({ message: 'Nhập lại mật khẩu không được để trống' })
+  rePassword: string;
+
   @IsOptional()
   name: string;
 }

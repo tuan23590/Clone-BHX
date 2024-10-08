@@ -1,13 +1,32 @@
 'use client'
+import { sendRequest } from '@/utils/api'
 import { Box, Button, TextField, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const RegisterPageClient = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rePassword, setRePassword] = useState('')
-
-  const handleRegister = () => {
+  const route = useRouter()
+  const handleRegister = async () => {
+    
+    const res= await sendRequest<IBackendRes<any>>({
+      method: 'POST',
+      url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/auth/register`,
+      body: {
+        email,
+        password,
+        rePassword
+      }
+    })
+    if (res?.data) {
+      console.log(res?.data)
+      alert('Register success')
+      route.push(`/verify/${res?.data?.data._id}`)
+    } else {
+      alert(res?.message)
+    }
   }
 
   return (

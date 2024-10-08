@@ -9,6 +9,7 @@ import aqp from 'api-query-params';
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
 import dayjs from 'dayjs';
 import { MailerService } from '@nestjs-modules/mailer';
+import { VerifyDto } from '@/auth/dto/verify-auth.dto';
 
 @Injectable()
 export class UsersService {
@@ -150,6 +151,23 @@ export class UsersService {
       message: 'Tạo tài khoản thành công',
       data: {
         _id: user._id,
+      },
+    };
+  }
+
+  async verify(verifyDto: VerifyDto ) {
+    const user = await this.userModel.findById(verifyDto._id);
+    if (!user) throw new BadRequestException('Không tìm thấy người dùng');
+    if (user.activationCode !== verifyDto.verifyCode)
+      throw new BadRequestException('Mã xác thực không chính xác');
+    if (dayjs().isAfter(user.codeExpired))
+      throw new BadRequestException('Mã xác thực đã hết hạn');
+    await this.userModel.findByIdAndUpdate(verifyDto._id, { isActivated: true, activationCode: null, codeExpired: null });
+    return {
+      statusCode: 200,
+      message: 'Xác thực tài khoản thành công',
+      data: {
+        _id: verifyDto._id,
       },
     };
   }
