@@ -76,7 +76,7 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  async findByEmailOrPhone(email: string) {
+  async findByEmail(email: string) {
     const user = await this.userModel.findOne({ email });
     return user;
   }
