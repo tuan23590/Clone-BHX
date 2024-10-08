@@ -9,7 +9,8 @@ import aqp from 'api-query-params';
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
 import dayjs from 'dayjs';
 import { MailerService } from '@nestjs-modules/mailer';
-import { VerifyDto } from '@/auth/dto/verify-auth.dto';
+import { ForgotPasswordDto, ResendCodeDto, VerifyDto } from '@/auth/dto/verify-auth.dto';
+import { generateCode } from '@/utils/code';
 
 @Injectable()
 export class UsersService {
@@ -131,7 +132,7 @@ export class UsersService {
     const user = new this.userModel({
       ...registerDto,
       // random activation code with 6 numbers
-      activationCode: Math.floor(100000 + Math.random() * 900000).toString(),
+      activationCode: generateCode(),
       codeExpired: dayjs().add(5, 'minutes').toDate(),
     });
     await user.save();
@@ -155,19 +156,59 @@ export class UsersService {
     };
   }
 
-  async verify(verifyDto: VerifyDto ) {
+  async verify(verifyDto: VerifyDto) {
     const user = await this.userModel.findById(verifyDto._id);
     if (!user) throw new BadRequestException('Không tìm thấy người dùng');
     if (user.activationCode !== verifyDto.verifyCode)
       throw new BadRequestException('Mã xác thực không chính xác');
     if (dayjs().isAfter(user.codeExpired))
       throw new BadRequestException('Mã xác thực đã hết hạn');
-    await this.userModel.findByIdAndUpdate(verifyDto._id, { isActivated: true, activationCode: null, codeExpired: null });
+    await this.userModel.findByIdAndUpdate(verifyDto._id, {
+      isActivated: true,
+      activationCode: null,
+      codeExpired: null,
+    });
     return {
       statusCode: 200,
       message: 'Xác thực tài khoản thành công',
       data: {
         _id: verifyDto._id,
+      },
+    };
+  }
+
+  async resendCode(resendCodeDto: ResendCodeDto) {
+    const user = await this.userModel.findOne({ email: resendCodeDto.email });
+    if (!user) throw new BadRequestException('Không tìm thấy người dùng');
+    user.activationCode = generateCode();
+    user.codeExpired = dayjs().add(5, 'minutes').toDate();
+    console.log('user', user);
+    await user.save();
+    return {
+      statusCode: 200,
+      message: 'Gửi lại mã xác thực thành công',
+      data: {
+        _id: user._id,
+      },
+    };
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const user = await this.userModel.findById(forgotPasswordDto._id);
+    if (!user) throw new BadRequestException('Không tìm thấy người dùng');
+    if (user.activationCode !== forgotPasswordDto.verifyCode)
+      throw new BadRequestException('Mã xác thực không chính xác');
+    if (dayjs().isAfter(user.codeExpired))
+      throw new BadRequestException('Mã xác thực đã hết hạn');
+    user.password = await hashPassword(forgotPasswordDto.password);
+    user.activationCode = null;
+    user.codeExpired = null;
+    await user.save();
+    return {
+      statusCode: 200,
+      message: 'Đổi mật khẩu thành công',
+      data: {
+        _id: user._id,
       },
     };
   }

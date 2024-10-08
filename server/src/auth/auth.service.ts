@@ -3,7 +3,7 @@ import { UsersService } from '@/modules/users/users.service';
 import { comparePassword } from '@/utils/handlePassword';
 import { JwtService } from '@nestjs/jwt';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { VerifyDto } from './dto/verify-auth.dto';
+import { ForgotPasswordDto, ResendCodeDto, VerifyDto } from './dto/verify-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,5 +37,13 @@ export class AuthService {
 
   async verify(verifyDto: VerifyDto) {
     return await this.usersService.verify(verifyDto);
+  }
+
+  async resendCode(resendCodeDto: ResendCodeDto) {
+    return await this.usersService.resendCode(resendCodeDto);
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    return await this.usersService.forgotPassword(forgotPasswordDto);
   }
 }
