@@ -12,5 +12,5 @@ services:
 volumes:
   mongodb_data_container:
 
-    # docker compose -p ishopdb-mongodb-4rn up -d
-    # mongodb://root:123456@localhost:27017/ishopdb?authSource=admin
+    # docker compose -p imdb-mongodb-4rn up -d
+    # mongodb://root:123456@localhost:27017/imdb?authSource=admin
