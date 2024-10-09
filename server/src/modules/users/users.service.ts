@@ -122,6 +122,7 @@ export class UsersService {
   }
 
   async register(registerDto: CreateAuthDto) {
+
     const isEmailExist = await this.isEmailExist(registerDto.email);
     if (isEmailExist)
       throw new BadRequestException(`Email ${registerDto.email} đã tồn tại`);

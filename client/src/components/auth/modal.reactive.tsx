@@ -142,7 +142,7 @@ export default function ModalReactive({
                 <FormLabel>
                   Email đã đăng ký
                 </FormLabel>
-                <Input required value={email} disabled/>
+                <Input required value={email} disabled />
               </FormControl>
               <Button type="submit">
                 Gửi mã kích hoạt

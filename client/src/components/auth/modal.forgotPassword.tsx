@@ -20,6 +20,7 @@ import React, { useState } from "react";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { sendRequest } from "@/utils/api";
 import CloseIcon from '@mui/icons-material/Close';
+import EmailIcon from '@mui/icons-material/Email';
 
 type ModalForgotPasswordProps = {
   open: boolean;
@@ -92,8 +93,8 @@ export default function ModalForgotPassword({
                 cursor: 'pointer',
                 padding: 1,
                 borderRadius: '20%',
-                width: '50px',
-                height: '50px',
+                width: '40px',
+                height: '40px',
                 ':hover':{
                     backgroundColor: '#eeeeee'
                 }
@@ -163,7 +164,7 @@ export default function ModalForgotPassword({
                 <FormLabel>
                   Email đã đăng ký
                 </FormLabel>
-                <Input required defaultValue={email} autoFocus/>
+                <Input required defaultValue={email} autoFocus type="email" startDecorator={<EmailIcon/>}/>
               </FormControl>
               <Button type="submit">
                 Gửi mã kích hoạt
