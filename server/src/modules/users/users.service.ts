@@ -62,15 +62,13 @@ export class UsersService {
       .sort(sort as any)
       .select('-password');
     return {
-      statusCode: 200,
-      message: 'Lấy danh sách người dùng thành công',
-      data: {
-        results,
-        totalItems,
-        totalPages,
-        current,
-        pageSize,
+      meta: {
+        current: current,
+        pageSize: pageSize,
+        pages: totalPages,
+        total: totalItems,
       },
+      results,
     };
   }
 
