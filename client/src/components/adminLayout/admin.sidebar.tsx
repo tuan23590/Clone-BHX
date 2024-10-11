@@ -25,10 +25,16 @@ import ColorSchemeToggle from "./ColorSchemeToggle";
 import { closeSidebar } from "@/utils/context";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import AlertDialogModal from "../AlertDialogModal";
 
 export default function AdminSidebar(props: { session: any }) {
+  const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const { session } = props;
   const router = useRouter();
+  const handleSignOut = () => {
+    signOut();
+    return true;
+  };
   return (
     <Sheet
       className="Sidebar"
@@ -289,11 +295,20 @@ export default function AdminSidebar(props: { session: any }) {
           size="sm"
           variant="plain"
           color="neutral"
-          onClick={() => signOut()}
+          onClick={() => setOpenConfirm(true)}
         >
           <LogoutRoundedIcon />
         </IconButton>
       </Box>
+      <AlertDialogModal
+        open={openConfirm}
+        setOpen={setOpenConfirm}
+        title="Đăng xuất"
+        content="Bạn có chắc chắn muốn đăng xuất?"
+        buttonContent="Đăng xuất"
+        type="alert"
+        handleFunction={handleSignOut}
+      />
     </Sheet>
   );
 }
