@@ -29,7 +29,35 @@ export const handleCreateUserAction = async ({
   return res;
 };
 
-export const handleUpdateUserAction = async (data: any) => {};
+export const handleUpdateUserAction = async ({
+  data,
+}: {
+  data: {
+    _id: string;
+    email: string;
+    name: string;
+    address: string;
+    phone: string;
+  };
+}) => {
+  const session = await auth();
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "PATCH",
+    url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/`,
+    body: {
+      _id: data._id,
+      email: data.email,
+      name: data.name,
+      address: data.address,
+      phone: data.phone,
+    },
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+  });
+  revalidateTag("list-users");
+  return res;
+};
 
 export const handleDeleteUserAction = async (_id: string) => {
   const session = await auth();

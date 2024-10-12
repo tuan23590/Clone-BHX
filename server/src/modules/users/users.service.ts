@@ -53,8 +53,6 @@ export class UsersService {
     const totalPages = Math.ceil(totalItems / pageSize);
     const offset = (current - 1) * pageSize; // offset dùng để skip bao nhiêu phần tử
 
-    console.log('totalItems', totalItems);
-
     const results = await this.userModel
       .find(filter)
       .limit(pageSize)
@@ -84,7 +82,11 @@ export class UsersService {
   async update(updateUserDto: UpdateUserDto) {
     await this.userModel.findByIdAndUpdate(
       { _id: updateUserDto._id },
-      { ...updateUserDto },
+      {
+        name: updateUserDto.name,
+        address: updateUserDto.address,
+        phone: updateUserDto.phone.replace(/\(\+\d+\)/g, '0').replaceAll(' ', ''),
+      }
     );
     return {
       statusCode: 200,

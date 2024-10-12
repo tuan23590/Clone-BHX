@@ -29,7 +29,7 @@ export default function AlertDialogModal({
   handleFunction,
 }: AlertDialogProps) {
   const handleConfirm = async () => {
-    if ( await handleFunction()) {
+    if (await handleFunction()) {
       setOpen(false);
     }
   };
@@ -46,12 +46,15 @@ export default function AlertDialogModal({
             {title}
           </DialogTitle>
           <Divider />
-          <DialogContent>{content}</DialogContent>
+          <DialogContent>
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+          </DialogContent>
           <DialogActions>
-            <Button 
-            variant="solid" 
-            color={type === "alert" ? "danger" : "primary"} 
-            onClick={handleConfirm}>
+            <Button
+              variant="solid"
+              color={type === "alert" ? "danger" : "primary"}
+              onClick={handleConfirm}
+            >
               {buttonContent}
             </Button>
             <Button

@@ -38,6 +38,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { AppContext } from "@/context/AppProvider";
 import { handleDeleteUserAction } from "@/app/action/userAction";
 import AlertDialogModal from "../AlertDialogModal";
+import ModalEditUser from "./modal.editUser";
+import { formatDateTime } from "@/utils/fomart";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,11 +65,22 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function RowMenu({ _id }: { _id: string }) {
+function RowMenu({
+  data,
+}: {
+  data: {
+    _id: string;
+    name: string;
+    email: string;
+    address: string;
+    phone: string;
+  };
+}) {
   const { openSnackbar } = React.useContext(AppContext);
   const [openConfirm, setOpenConfirm] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
   const handleDelete = async () => {
-    const res = await handleDeleteUserAction(_id);
+    const res = await handleDeleteUserAction(data._id);
     if (res) {
       openSnackbar({
         message: "Xóa người dùng thành công",
@@ -94,7 +107,7 @@ function RowMenu({ _id }: { _id: string }) {
           <MoreHorizRoundedIcon />
         </MenuButton>
         <Menu size="sm" sx={{ minWidth: 140 }}>
-          <MenuItem>Chỉnh sửa</MenuItem>
+          <MenuItem onClick={() => setOpenEdit(true)}>Chỉnh sửa</MenuItem>
           <Divider />
           <MenuItem color="danger" onClick={() => setOpenConfirm(true)}>
             Xóa
@@ -105,11 +118,14 @@ function RowMenu({ _id }: { _id: string }) {
         open={openConfirm}
         setOpen={setOpenConfirm}
         title="Xác nhận xóa"
-        content="Bạn có chắc chắn muốn xóa người dùng này không?"
+        content={`Bạn có chắc chắn muốn xóa người dùng <span
+          style="color: red"
+          >${data.name|| data._id}</span> không?`}
         buttonContent="Xóa"
         type="alert"
         handleFunction={handleDelete}
       />
+      <ModalEditUser open={openEdit} setOpen={setOpenEdit} formData={data} />
     </>
   );
 }
@@ -313,8 +329,10 @@ export default function User({ users, meta }: UserProps) {
               <th style={{ width: 140, padding: "12px 6px" }}>Ngày tạo</th>
               <th style={{ width: 140, padding: "12px 6px" }}>Trạng thái</th>
               <th style={{ width: 240, padding: "12px 6px" }}>
-                Tên người dùng
+                Thông tin người dùng
               </th>
+              <th style={{ width: 140, padding: "12px 6px" }}>Số điện thoại</th>
+              <th style={{ width: 240, padding: "12px 6px" }}>Địa chỉ</th>
               <th style={{ width: 140, padding: "12px 6px" }}>
                 Loại tài khoản
               </th>
@@ -345,7 +363,9 @@ export default function User({ users, meta }: UserProps) {
                   <Typography level="body-xs">{row._id}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.createdAt}</Typography>
+                  <Typography level="body-xs">
+                    {formatDateTime(row.createdAt)}
+                  </Typography>
                 </td>
                 <td>
                   <Chip
@@ -375,6 +395,12 @@ export default function User({ users, meta }: UserProps) {
                   </Box>
                 </td>
                 <td>
+                  <Typography level="body-xs">{row.phone}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-xs">{row.address}</Typography>
+                </td>
+                <td>
                   <Typography level="body-xs">{row.acountType}</Typography>
                 </td>
                 <td>
@@ -382,10 +408,7 @@ export default function User({ users, meta }: UserProps) {
                 </td>
                 <td>
                   <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                    <Link level="body-xs" component="button">
-                      Download
-                    </Link>
-                    <RowMenu _id={row._id} />
+                    <RowMenu data={row} />
                   </Box>
                 </td>
               </tr>

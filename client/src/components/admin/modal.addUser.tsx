@@ -70,31 +70,33 @@ export default function ModalAddUser({ open, setOpen }: ModalAddUserProps) {
             onSubmit={handleSubmit}
           >
             <Stack spacing={2}>
-              <FormControl>
+              <FormControl required>
                 <FormLabel>
                   Họ và tên
                 </FormLabel>
-                <Input autoFocus required name="name" />
+                <Input autoFocus name="name" />
               </FormControl>
-              <FormControl>
+              <FormControl required>
                 <FormLabel>
                   Email
                 </FormLabel>
-                <Input required name="email" type="email"/>
+                <Input name="email" type="email"/>
               </FormControl>
-              <FormControl>
+              <FormControl required>
                 <FormLabel>
                   Mật khẩu
                 </FormLabel>
-                <Input required name="password" type="password"/>
+                <Input name="password" type="password"/>
               </FormControl>
-              <FormControl>
+              <FormControl required>
                 <FormLabel>
                   Nhập lại mật khẩu
                 </FormLabel>
-                <Input required name="confirmPassword" type="password"/>
+                <Input name="confirmPassword" type="password"/>
               </FormControl>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">
+                Thêm người dùng
+              </Button>
             </Stack>
           </form>
         </ModalDialog>

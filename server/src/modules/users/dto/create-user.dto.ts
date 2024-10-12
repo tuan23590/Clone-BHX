@@ -9,4 +9,14 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Mật khẩu không được để trống' })
   password: string;
 
+  @IsOptional()
+  name: string;
+
+  @IsOptional()
+  address: string;
+
+  @IsOptional()
+  @IsPhoneNumber('VN', { message: 'Số điện thoại không hợp lệ' })
+  phone: string;
+
 }
