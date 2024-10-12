@@ -14,8 +14,6 @@ const UserPage = async (props: Props) => {
   const pageSize = props?.searchParams?.pageSize ?? 10;
   const session = await auth();
 
-  console.log(session);
-
   const res = await sendRequest<IBackendRes<any>>({
     url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users`,
     method: "GET",

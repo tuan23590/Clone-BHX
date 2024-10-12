@@ -20,7 +20,7 @@ import {
 import React, { useState } from "react";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { sendRequest } from "@/utils/api";
-import CloseIcon from "@mui/icons-material/Close";
+import { handleCreateUserAction } from "@/app/action/userAction";
 
 type ModalRegisterProps = {
   open: boolean;
@@ -51,19 +51,15 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
   const [_id, set_id] = useState("");
   const handleSubmitFormStep0 = async (event: React.FormEvent<RegisterFormElement>) => {
     event.preventDefault();
-    const res = await sendRequest<IBackendRes<any>>({
-      method: "POST",
-      url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/auth/register`,
-      body: {
-        email: event.currentTarget.elements.email.value.trim(),
-        password: event.currentTarget.elements.password.value.trim(),
-        rePassword: event.currentTarget.elements.confirmPassword.value.trim(),
-        name: event.currentTarget.elements.name.value.trim(),
-      },
+    const res = await handleCreateUserAction({
+      email: event.currentTarget.elements.email.value.trim(),
+      password: event.currentTarget.elements.password.value.trim(),
+      rePassword: event.currentTarget.elements.confirmPassword.value.trim(),
+      name: event.currentTarget.elements.name.value.trim(),
     });
     if (res?.data) {
+      set_id(res.data._id);
       setCurrentStep(1);
-        set_id(res?.data?.data._id);
     } else {
       alert(res?.message);
     }
@@ -94,30 +90,18 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
     { label: "Hoàn thành", subLabel: "03" },
   ];
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={(_event: React.MouseEvent<HTMLButtonElement>, reason: string) => {
+      if (reason === 'backdropClick') {
+        return;
+      }else {
+        setOpen(false);
+      }
+      }}>
       <ModalDialog size="lg">
         <DialogTitle
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
         >
+          <ModalClose />
           <Typography level="h3">Đăng ký tài khoản</Typography>
-          <CloseIcon
-            sx={{
-              cursor: "pointer",
-              padding: 1,
-              borderRadius: "20%",
-              width: "40px",
-              height: "40px",
-              ":hover": {
-                backgroundColor: "#eeeeee",
-              },
-            }}
-            onClick={() => {
-              setOpen(false);
-            }}
-          />
         </DialogTitle>
         <DialogContent>
           Để đăng ký tài khoản, vui lòng điền thông tin các thông tin bên dưới

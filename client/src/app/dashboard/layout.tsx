@@ -9,10 +9,11 @@ import Typography from '@mui/joy/Typography';
 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AdminHeader from '@/components/adminLayout/admin.header';
 import AdminSidebar from '@/components/adminLayout/admin.sidebar';
 import { auth } from '@/auth';
+import AddUserButton from '@/components/admin/addUserButton';
 
 export default async function AdminLayout({
      children,
@@ -85,13 +86,7 @@ export default async function AdminLayout({
             <Typography level="h2" component="h1">
               Người dùng
             </Typography>
-            <Button
-              color="primary"
-              startDecorator={<DownloadRoundedIcon />}
-              size="sm"
-            >
-              Download PDF
-            </Button>
+            <AddUserButton />
           </Box>
           {children}
         </Box>

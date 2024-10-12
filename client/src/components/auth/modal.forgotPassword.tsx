@@ -15,11 +15,11 @@ import {
   Stepper,
   stepClasses,
   stepIndicatorClasses,
+  ModalClose,
 } from "@mui/joy";
 import React, { useContext, useState } from "react";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { sendRequest } from "@/utils/api";
-import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
 import { AppContext } from "@/context/AppProvider";
 
@@ -51,7 +51,7 @@ export default function ModalForgotPassword({
           if (res?.data) {
             setCurrentStep(1);
             set_id(res?.data?.data._id)
-            openSnackbar({message: 'Mã xác thực đã được gửi đến email của bạn', color: 'neutral'})
+            openSnackbar({message: 'Mã xác thực đã được gửi đến email của bạn', color: 'success'})
           } else {
             openSnackbar({message: res?.message, color: 'danger'})
           }
@@ -84,26 +84,19 @@ export default function ModalForgotPassword({
     { label: "Hoàn thành", subLabel: "03" },
   ];
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={(_event: React.MouseEvent<HTMLButtonElement>, reason: string) => {
+      if (reason === 'backdropClick') {
+        return;
+      }else {
+        setOpen(false);
+      }
+      }}>
       <ModalDialog size="lg">
-        <DialogTitle sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-        }}>
+        <DialogTitle>
+        <ModalClose />
             <Typography level="h3">
                 Đặt lại mật khẩu
                 </Typography>
-            <CloseIcon sx={{
-                cursor: 'pointer',
-                padding: 1,
-                borderRadius: '20%',
-                width: '40px',
-                height: '40px',
-                ':hover':{
-                    backgroundColor: '#eeeeee'
-                }
-            }} onClick={() => {setOpen(false)
-            }} />
         </DialogTitle>
         <DialogContent>
             Để đặt lại mật khẩu, vui lòng nhập mã xác thực và mật khẩu mới.
