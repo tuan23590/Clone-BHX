@@ -12,5 +12,5 @@ services:
 volumes:
   mongodb_data_container:
 
-    # docker compose -p imdb-mongodb-4rn up -d
-    # mongodb://root:123456@localhost:27017/imdb?authSource=admin
+    # docker compose -p bhxdb-mongodb-4rn up -d
+    # mongodb://root:123456@localhost:27017/bhxdb?authSource=admin
