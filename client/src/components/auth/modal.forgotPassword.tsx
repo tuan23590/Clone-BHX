@@ -16,11 +16,13 @@ import {
   stepClasses,
   stepIndicatorClasses,
 } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { sendRequest } from "@/utils/api";
 import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
+import { AppContext } from "@/context/AppProvider";
+
 
 type ModalForgotPasswordProps = {
   open: boolean;
@@ -33,6 +35,7 @@ export default function ModalForgotPassword({
   setOpen,
   email,
 }: ModalForgotPasswordProps) {
+  const {openSnackbar} = useContext(AppContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [_id, set_id] = useState("");
   const [userEmail, setUserEmail] = useState(email);
@@ -48,8 +51,9 @@ export default function ModalForgotPassword({
           if (res?.data) {
             setCurrentStep(1);
             set_id(res?.data?.data._id)
+            openSnackbar({message: 'Mã xác thực đã được gửi đến email của bạn', color: 'neutral'})
           } else {
-            alert(res?.message)
+            openSnackbar({message: res?.message, color: 'danger'})
           }
     };
     const handleSubmitFormStep1 = async (event: any) => {

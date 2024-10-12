@@ -35,6 +35,9 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { usePathname, useRouter } from "next/navigation";
+import { AppContext } from "@/context/AppProvider";
+import { handleDeleteUserAction } from "@/app/action/userAction";
+import AlertDialogModal from "../AlertDialogModal";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -60,21 +63,54 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function RowMenu() {
+function RowMenu({ _id }: { _id: string }) {
+  const { openSnackbar } = React.useContext(AppContext);
+  const [openConfirm, setOpenConfirm] = React.useState(false);
+  const handleDelete = async () => {
+    const res = await handleDeleteUserAction(_id);
+    if (res) {
+      openSnackbar({
+        message: "Xóa người dùng thành công",
+        color: "success",
+      });
+      return true;
+    } else {
+      openSnackbar({
+        message: "Xóa người dùng thất bại",
+        color: "danger",
+      });
+      return false;
+    }
+  };
   return (
-    <Dropdown>
-      <MenuButton
-        slots={{ root: IconButton }}
-        slotProps={{ root: { variant: "plain", color: "neutral", size: "sm" } }}
-      >
-        <MoreHorizRoundedIcon />
-      </MenuButton>
-      <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>Chỉnh sửa</MenuItem>
-        <Divider />
-        <MenuItem color="danger">Xóa</MenuItem>
-      </Menu>
-    </Dropdown>
+    <>
+      <Dropdown>
+        <MenuButton
+          slots={{ root: IconButton }}
+          slotProps={{
+            root: { variant: "plain", color: "neutral", size: "sm" },
+          }}
+        >
+          <MoreHorizRoundedIcon />
+        </MenuButton>
+        <Menu size="sm" sx={{ minWidth: 140 }}>
+          <MenuItem>Chỉnh sửa</MenuItem>
+          <Divider />
+          <MenuItem color="danger" onClick={() => setOpenConfirm(true)}>
+            Xóa
+          </MenuItem>
+        </Menu>
+      </Dropdown>
+      <AlertDialogModal
+        open={openConfirm}
+        setOpen={setOpenConfirm}
+        title="Xác nhận xóa"
+        content="Bạn có chắc chắn muốn xóa người dùng này không?"
+        buttonContent="Xóa"
+        type="alert"
+        handleFunction={handleDelete}
+      />
+    </>
   );
 }
 
@@ -239,7 +275,7 @@ export default function User({ users, meta }: UserProps) {
                   checked={selected.length === users.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? users.map((row) => row.id) : []
+                      event.target.checked ? users.map((row) => row._id) : []
                     );
                   }}
                   color={
@@ -275,7 +311,7 @@ export default function User({ users, meta }: UserProps) {
                 </Link>
               </th>
               <th style={{ width: 140, padding: "12px 6px" }}>Ngày tạo</th>
-              <th style={{ width: 140, padding: "12px 6px" }}>trạng thái</th>
+              <th style={{ width: 140, padding: "12px 6px" }}>Trạng thái</th>
               <th style={{ width: 240, padding: "12px 6px" }}>
                 Tên người dùng
               </th>
@@ -292,13 +328,13 @@ export default function User({ users, meta }: UserProps) {
                 <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
                     size="sm"
-                    checked={selected.includes(row.id)}
-                    color={selected.includes(row.id) ? "primary" : undefined}
+                    checked={selected.includes(row._id)}
+                    color={selected.includes(row._id) ? "primary" : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
-                          ? ids.concat(row.id)
-                          : ids.filter((itemId) => itemId !== row.id)
+                          ? ids.concat(row._id)
+                          : ids.filter((itemId) => itemId !== row._id)
                       );
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: "left" } } }}
@@ -349,7 +385,7 @@ export default function User({ users, meta }: UserProps) {
                     <Link level="body-xs" component="button">
                       Download
                     </Link>
-                    <RowMenu />
+                    <RowMenu _id={row._id} />
                   </Box>
                 </td>
               </tr>

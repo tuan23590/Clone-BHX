@@ -16,7 +16,7 @@ type AlertDialogProps = {
   content: string;
   buttonContent: string;
   type: "alert" | "confirm";
-  handleFunction: () => boolean;
+  handleFunction: () => Promise<boolean>;
 };
 
 export default function AlertDialogModal({
@@ -28,8 +28,8 @@ export default function AlertDialogModal({
   type,
   handleFunction,
 }: AlertDialogProps) {
-  const handleConfirm = () => {
-    if (handleFunction()) {
+  const handleConfirm = async () => {
+    if ( await handleFunction()) {
       setOpen(false);
     }
   };

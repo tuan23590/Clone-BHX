@@ -190,7 +190,7 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
               </FormControl>
               <FormControl>
                 <FormLabel>Email</FormLabel>
-                <Input required autoFocus name="email" type="email" startDecorator/>
+                <Input required autoFocus name="email" type="email"/>
               </FormControl>
               <FormControl>
                 <FormLabel>Mật khẩu</FormLabel>

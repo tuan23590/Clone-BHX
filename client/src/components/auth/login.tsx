@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { CssVarsProvider, extendTheme, useColorScheme } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -19,10 +19,12 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import GoogleIcon from '../../Public/GoogleIcon';
 import { useRouter } from 'next/navigation';
-import { authenticate } from '@/utils/action';
+import { authenticate } from '@/app/action/authAction';
 import ModalReactive from './modal.reactive';
 import ModalForgotPassword from './modal.forgotPassword';
 import ModalRegister from './modal.register';
+import { AppContext } from '@/context/AppProvider';
+
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -32,7 +34,6 @@ interface FormElements extends HTMLFormControlsCollection {
 interface SignInFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
-
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
   const { mode, setMode } = useColorScheme();
@@ -60,6 +61,7 @@ function ColorSchemeToggle(props: IconButtonProps) {
 const customTheme = extendTheme();
 
 export default function LoginPageClient() {
+  const {openSnackbar} = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [openVerify, setOpenVerify] = useState(false);
   const [openForgot, setOpenForgot] = useState(false);
@@ -72,7 +74,8 @@ export default function LoginPageClient() {
     const res = await authenticate(email, password);
     console.log(res);
     if (res?.error) {
-      alert(res.error);
+      // alert(res.error);
+      openSnackbar({ message: res.error, color: 'danger' });
       if (res.code === 2) {
         setOpenVerify(true);
       }
@@ -81,7 +84,8 @@ export default function LoginPageClient() {
     }
   };
   const handleLoginWithGoogle = async () => {
-    alert("Chức năng đang phát triển");
+    // alert("Chức năng đang phát triển");
+    openSnackbar({ message: 'Chức năng đang phát triển', color: 'warning' });
   }
   return (
    <>
