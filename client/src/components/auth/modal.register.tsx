@@ -57,8 +57,9 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
       rePassword: event.currentTarget.elements.confirmPassword.value.trim(),
       name: event.currentTarget.elements.name.value.trim(),
     });
+    console.log(res);
     if (res?.data) {
-      set_id(res.data._id);
+      set_id(res.data.data._id);
       setCurrentStep(1);
     } else {
       alert(res?.message);
