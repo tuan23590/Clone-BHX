@@ -28,8 +28,6 @@ import Dropdown from "@mui/joy/Dropdown";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import BlockIcon from "@mui/icons-material/Block";
 import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -371,7 +369,6 @@ export default function Category({ categories, meta }: UserProps) {
                   <Link href={row.image} target="_blank" color="primary">
                     <img
                       src={row.image}
-                      //alt={row.name}
                       width="30"
                       height="30"
                       style={{ borderRadius: 4, marginRight: 8 }}

@@ -63,7 +63,7 @@ import { join } from 'path';
       inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
+      rootPath: join(__dirname, '..', 'src/uploads'),
     }),
     UsersModule,
     AuthModule,

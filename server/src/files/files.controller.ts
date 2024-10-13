@@ -13,7 +13,7 @@ import {
 import { FilesService } from './files.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ConfigService } from '@nestjs/config';
 
@@ -45,16 +45,16 @@ export class FilesController {
     return this.filesService.update(+id, updateFileDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.filesService.remove(+id);
+  @Delete(':fileName')
+  async remove(@Param('fileName') fileName: string) {
+    return this.filesService.remove(fileName);
   }
 
   @Post('upload')
     @UseInterceptors(
         FilesInterceptor('files', 20, {
           storage: diskStorage({
-            destination: './uploads/',
+            destination: './src/uploads',
             filename: (req, file, cb) => {
               const fileName = `${Date.now()}-${file.originalname.replace(/\s/g, '')}`;
               cb(null, fileName);
@@ -66,7 +66,7 @@ export class FilesController {
         const response = [];
         files.forEach(file => {
           const fileReponse = {
-            fileName: `${this.configService.get<string>('FILE_DOMAIN')}${file.filename}`,
+            fileName: `${this.configService.get<string>('FILE_DOMAIN')}/${file.filename}`,
             fileSize: file.size,
           };
           response.push(fileReponse);

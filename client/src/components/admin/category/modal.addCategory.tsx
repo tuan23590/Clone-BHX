@@ -11,7 +11,7 @@ import Stack from "@mui/joy/Stack";
 import { Box, Link, ModalClose, Textarea } from "@mui/joy";
 import { AppContext } from "@/context/AppProvider";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import { handleUploadFileAction } from "@/action/fileAction";
+import { handleDeleteFileAction, handleUploadFileAction } from "@/action/fileAction";
 import { handleCreateCategoryAction } from "@/action/categoryAction";
 
 type ModalAddCategoryProps = {
@@ -40,10 +40,6 @@ export default function ModalAddCategory({
   }>();
   const handleSubmit = async (e: React.FormEvent<FormElement>) => {
     e.preventDefault();
-    console.log(e.currentTarget.elements.name.value);
-    console.log(e.currentTarget.elements.description.value);
-    console.log(file?.fileName.split("/")[3]);
-
     const res = await handleCreateCategoryAction({
       name: e.currentTarget.elements.name.value,
       description: e.currentTarget.elements.description.value,
@@ -51,11 +47,11 @@ export default function ModalAddCategory({
     });
     if (res?.data) {
       setOpen(false);
-      openSnackbar({ message: "Thêm người dùng thành công", color: "success" });
+      openSnackbar({ message: "Thêm danh mục thành công", color: "success" });
+      setFile(undefined);
     } else {
       openSnackbar({ message: res?.message, color: "danger" });
     }
-    console.log(res);
   };
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -63,7 +59,6 @@ export default function ModalAddCategory({
     const formData = new FormData();
     formData.append("files", file);
     const res = await handleUploadFileAction(formData);
-    console.log(res);
     if (res?.data) {
       setFile({
         fileName: res?.data[0]?.fileName,
@@ -73,6 +68,24 @@ export default function ModalAddCategory({
       openSnackbar({ message: res?.message, color: "danger" });
     }
   };
+
+  let pending = file ? true : false;
+
+  React.useEffect(() => {
+    if (!pending) return;
+  
+    function beforeUnload(e: BeforeUnloadEvent) {
+      file && handleDeleteFileAction(file?.fileName.split("/")[3]);
+    }
+  
+    window.addEventListener('beforeunload', beforeUnload);
+  
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload);
+    };
+  }, [pending]);
+
+
   return (
     <React.Fragment>
       <Modal
@@ -86,6 +99,8 @@ export default function ModalAddCategory({
             return;
           } else {
             setOpen(false);
+            setFile(undefined);
+            file?.fileName && handleDeleteFileAction(file?.fileName.split("/")[3]);
           }
         }}
       >
@@ -112,7 +127,7 @@ export default function ModalAddCategory({
                     }}
                   />
                   Chọn hình ảnh
-                  <input type="file" hidden onChange={handleUploadFile} name="filePath"/>
+                  <input type="file" hidden onChange={handleUploadFile} name="filePath" accept="image/*" />
                 </Button>
                 {file && (
                   <Box>
