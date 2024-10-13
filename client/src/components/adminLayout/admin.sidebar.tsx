@@ -31,8 +31,8 @@ export default function AdminSidebar(props: { session: any }) {
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const { session } = props;
   const router = useRouter();
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
     return true;
   };
   return (
@@ -153,6 +153,20 @@ export default function AdminSidebar(props: { session: any }) {
                   onClick={() => router.push("/dashboard/user")}
                 >
                   Users
+                </Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton>
+              <ShoppingCartRoundedIcon />
+              <ListItemContent>
+                <Typography
+                  level="title-sm"
+                  onClick={() => router.push("/dashboard/category")}
+                >
+                  Doanh mục
                 </Typography>
               </ListItemContent>
             </ListItemButton>

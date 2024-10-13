@@ -18,6 +18,9 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ShoppingCartModule } from './modules/shopping-cart/shopping-cart.module';
 import { SuppliersModule } from './modules/suppliers/suppliers.module';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -59,6 +62,9 @@ import { SuppliersModule } from './modules/suppliers/suppliers.module';
       }),
       inject: [ConfigService],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
     UsersModule,
     AuthModule,
     CategoriesModule,
@@ -68,6 +74,7 @@ import { SuppliersModule } from './modules/suppliers/suppliers.module';
     ProductsModule,
     ShoppingCartModule,
     SuppliersModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [

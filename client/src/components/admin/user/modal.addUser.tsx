@@ -9,7 +9,7 @@ import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import { ModalClose } from "@mui/joy";
-import { handleCreateUserAction } from "@/app/action/userAction";
+import { handleCreateUserAction } from "@/action/userAction";
 import { AppContext } from "@/context/AppProvider";
 
 type ModalAddUserProps = {

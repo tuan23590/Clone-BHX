@@ -19,7 +19,7 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import GoogleIcon from '../../Public/GoogleIcon';
 import { useRouter } from 'next/navigation';
-import { authenticate } from '@/app/action/authAction';
+import { authenticate } from '@/action/authAction';
 import ModalReactive from './modal.reactive';
 import ModalForgotPassword from './modal.forgotPassword';
 import ModalRegister from './modal.register';

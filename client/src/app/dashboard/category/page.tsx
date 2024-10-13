@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
-import AddUserButton from "@/components/admin/user/addUserButton";
+import AddCategoryButton from "@/components/admin/category/addCategoryButton";
+import Category from "@/components/admin/category/Category";
 import OrderList from "@/components/admin/OrderList";
 import User from "@/components/admin/user/User";
 import { sendRequest } from "@/utils/api";
@@ -11,13 +12,13 @@ interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const UserPage = async (props: Props) => {
+const CategoryPage = async (props: Props) => {
   const current = props?.searchParams?.current ?? 1;
   const pageSize = props?.searchParams?.pageSize ?? 10;
   const session = await auth();
 
   const res = await sendRequest<IBackendRes<any>>({
-    url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users`,
+    url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/categories`,
     method: "GET",
     queryParams: {
       current,
@@ -27,9 +28,10 @@ const UserPage = async (props: Props) => {
       Authorization: `Bearer ${session?.user?.access_token}`,
     },
     nextOption: {
-      next: { tags: ["list-users"] },
+      next: { tags: ["list-categories"] },
     },
   });
+  console.log(res);
   return (
     <>
     <Box
@@ -44,14 +46,14 @@ const UserPage = async (props: Props) => {
             }}
           >
             <Typography level="h2" component="h1">
-              Người dùng
+              Danh mục
             </Typography>
-            <AddUserButton />
+            <AddCategoryButton />
           </Box>
       <OrderList />
-      <User users={res?.data?.results ?? []} meta={res?.data?.meta} />
+      <Category categories={res?.data?.results ?? []} meta={res?.data?.meta} />
     </>
   );
 };
 
-export default UserPage;
+export default CategoryPage;

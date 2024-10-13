@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Button from '@mui/joy/Button';
-import ModalAddUser from '@/components/admin/modal.addUser';
+import ModalAddUser from '@/components/admin/user/modal.addUser';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 export default function AddUserButton() {

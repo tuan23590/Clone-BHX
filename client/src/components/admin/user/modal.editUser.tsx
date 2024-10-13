@@ -12,7 +12,7 @@ import { ModalClose } from "@mui/joy";
 import {
   handleCreateUserAction,
   handleUpdateUserAction,
-} from "@/app/action/userAction";
+} from "@/action/userAction";
 import { AppContext } from "@/context/AppProvider";
 
 type ModalAddUserProps = {

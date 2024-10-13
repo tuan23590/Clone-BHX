@@ -20,7 +20,7 @@ import {
 import React, { useState } from "react";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { sendRequest } from "@/utils/api";
-import { handleCreateUserAction } from "@/app/action/userAction";
+import { handleCreateUserAction } from "@/action/userAction";
 
 type ModalRegisterProps = {
   open: boolean;

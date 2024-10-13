@@ -14,6 +14,9 @@ export class Category {
 
   @Prop()
   products: string[];
+
+  @Prop()
+  image: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

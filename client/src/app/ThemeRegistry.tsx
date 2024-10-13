@@ -62,14 +62,3 @@ export default function ThemeRegistry(props: any) {
     </CacheProvider>
   );
 }
-
-// app/layout.tsx
-// export default function RootLayout(props: any) {
-//   return (
-//     <html lang="en">
-//       <body>
-//         <ThemeRegistry options={{ key: 'joy' }}>{props.children}</ThemeRegistry>
-//       </body>
-//     </html>
-//   );
-// }
