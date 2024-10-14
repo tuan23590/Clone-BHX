@@ -384,7 +384,7 @@ export default function Category({ categories, meta }: UserProps) {
                       maxWidth: 300,
                     }}
                   >
-                    <Typography level="body-xs">{row.name}</Typography>
+                    <Typography level="body-xs" noWrap>{row.name}</Typography>
                   </Tooltip>
                 </td>
                 <td>

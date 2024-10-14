@@ -14,7 +14,7 @@ interface Props {
 
 const CategoryPage = async (props: Props) => {
   const current = props?.searchParams?.current ?? 1;
-  const pageSize = props?.searchParams?.pageSize ?? 10;
+  const pageSize = props?.searchParams?.pageSize ?? 15;
   const session = await auth();
 
   const res = await sendRequest<IBackendRes<any>>({

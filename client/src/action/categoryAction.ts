@@ -3,24 +3,28 @@
 import { auth } from "@/auth";
 import { sendRequest } from "@/utils/api";
 import { revalidateTag } from "next/cache";
+import { handleUploadFileAction } from "./fileAction";
 
 export const handleCreateCategoryAction = async ({
   name,
   description,
-  filePath,
+  fileUpload,
 }: {
   name: string;
   description: string;
-  filePath: string;
+  fileUpload: FormData;
 }) => {
   const session = await auth();
+
+  const fileUploadData = await handleUploadFileAction(fileUpload);
+
   const res = await sendRequest<IBackendRes<any>>({
     method: "POST",
     url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/categories`,
     body: {
-        name,
-        description,
-        image : filePath,
+      name,
+      description,
+      image: fileUploadData?.data[0]?.fileName,
     },
     headers: {
       Authorization: `Bearer ${session?.user?.access_token}`,

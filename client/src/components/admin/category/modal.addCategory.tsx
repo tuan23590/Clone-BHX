@@ -11,7 +11,6 @@ import Stack from "@mui/joy/Stack";
 import { Box, Link, ModalClose, Textarea } from "@mui/joy";
 import { AppContext } from "@/context/AppProvider";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import { handleDeleteFileAction, handleUploadFileAction } from "@/action/fileAction";
 import { handleCreateCategoryAction } from "@/action/categoryAction";
 
 type ModalAddCategoryProps = {
@@ -22,7 +21,7 @@ type ModalAddCategoryProps = {
 interface FormDataElements extends HTMLFormControlsCollection {
   name: HTMLInputElement;
   description: HTMLInputElement;
-  filePath: HTMLInputElement;
+  fileUpload: HTMLInputElement;
 }
 
 interface FormElement extends HTMLFormElement {
@@ -34,58 +33,32 @@ export default function ModalAddCategory({
   setOpen,
 }: ModalAddCategoryProps) {
   const { openSnackbar } = React.useContext(AppContext);
-  const [file, setFile] = React.useState<{
-    fileName: string;
-    fileSize: number;
-  }>();
+  const [file, setFile] = React.useState<File[] | undefined>(undefined);
   const handleSubmit = async (e: React.FormEvent<FormElement>) => {
     e.preventDefault();
-    const res = await handleCreateCategoryAction({
-      name: e.currentTarget.elements.name.value,
-      description: e.currentTarget.elements.description.value,
-      filePath: file?.fileName.split("/")[3] ?? "",
-    });
-    if (res?.data) {
-      setOpen(false);
-      openSnackbar({ message: "Thêm danh mục thành công", color: "success" });
-      setFile(undefined);
-    } else {
-      openSnackbar({ message: res?.message, color: "danger" });
-    }
-  };
-  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
     const formData = new FormData();
-    formData.append("files", file);
-    const res = await handleUploadFileAction(formData);
-    if (res?.data) {
-      setFile({
-        fileName: res?.data[0]?.fileName,
-        fileSize: res?.data[0]?.fileSize,
+    if (e.currentTarget.elements.fileUpload.files) {
+      const files = e.currentTarget.elements.fileUpload.files;
+      if (files) {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          formData.append("files", file);
+        }
+      }
+      const res = await handleCreateCategoryAction({
+        name: e.currentTarget.elements.name.value,
+        description: e.currentTarget.elements.description.value,
+        fileUpload: formData,
       });
-    } else {
-      openSnackbar({ message: res?.message, color: "danger" });
+      if (res?.data) {
+        setOpen(false);
+        openSnackbar({ message: "Thêm danh mục thành công", color: "success" });
+        setFile(undefined);
+      } else {
+        openSnackbar({ message: res?.message, color: "danger" });
+      }
     }
   };
-
-  let pending = file ? true : false;
-
-  React.useEffect(() => {
-    if (!pending) return;
-  
-    function beforeUnload(e: BeforeUnloadEvent) {
-      file && handleDeleteFileAction(file?.fileName.split("/")[3]);
-    }
-  
-    window.addEventListener('beforeunload', beforeUnload);
-  
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnload);
-    };
-  }, [pending]);
-
-
   return (
     <React.Fragment>
       <Modal
@@ -100,7 +73,6 @@ export default function ModalAddCategory({
           } else {
             setOpen(false);
             setFile(undefined);
-            file?.fileName && handleDeleteFileAction(file?.fileName.split("/")[3]);
           }
         }}
       >
@@ -127,21 +99,32 @@ export default function ModalAddCategory({
                     }}
                   />
                   Chọn hình ảnh
-                  <input type="file" hidden onChange={handleUploadFile} name="filePath" accept="image/*" />
+                  <input
+                    type="file"
+                    hidden
+                    name="fileUpload"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        setFile(Array.from(e.target.files));
+                        console.log(e.target.files);
+                      }
+                    }}
+                  />
                 </Button>
                 {file && (
                   <Box>
-                  <Link mt={1} href={file?.fileName} target="_blank">
-                    {file?.fileName}(
-                    {
-                      // to MB
-                      file?.fileSize
-                        ? `${(file?.fileSize / 1024 / 1024).toFixed(2)} MB`
-                        : ""
-                    }
-                    )
-                  </Link>
-                </Box>
+                    {file.map((f, index) => (
+                      <Link
+                        key={index}
+                        href={URL.createObjectURL(f)}
+                        target="_blank"
+                        mt={1}
+                      >
+                        {f.name} ({(f.size / 1024 / 1024).toFixed(2)} MB) 
+                      </Link>
+                    ))}
+                  </Box>
                 )}
               </FormControl>
               <Button type="submit">Thêm danh mục</Button>

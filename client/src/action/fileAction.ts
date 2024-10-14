@@ -4,8 +4,11 @@ import { auth } from "@/auth";
 import { sendRequest, sendRequestFile } from "@/utils/api";
 
 export const handleUploadFileAction = async (
-    formData: FormData
+    formData?: FormData
     ) => {
+    if (formData?.get("files") === null) {
+        return;
+    }
     const session = await auth();
     const res = await sendRequestFile<IBackendRes<any>>({
         url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/files/upload`,

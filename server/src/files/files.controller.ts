@@ -15,14 +15,11 @@ import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('files')
 export class FilesController {
   constructor(
     private readonly filesService: FilesService,
-
-    private configService: ConfigService
   ) {}
 
   @Post()
@@ -66,7 +63,7 @@ export class FilesController {
         const response = [];
         files.forEach(file => {
           const fileReponse = {
-            fileName: `${this.configService.get<string>('FILE_DOMAIN')}/${file.filename}`,
+            fileName: file.filename,
             fileSize: file.size,
           };
           response.push(fileReponse);
