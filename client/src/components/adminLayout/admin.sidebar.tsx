@@ -172,6 +172,20 @@ export default function AdminSidebar(props: { session: any }) {
             </ListItemButton>
           </ListItem>
 
+          <ListItem>
+            <ListItemButton>
+              <ShoppingCartRoundedIcon />
+              <ListItemContent>
+                <Typography
+                  level="title-sm"
+                  onClick={() => router.push("/dashboard/product")}
+                >
+                  Sản phẩm
+                </Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
           {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (

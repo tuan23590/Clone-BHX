@@ -1,5 +1,7 @@
+import { Category } from '@/modules/categories/schemas/category.schemas';
+import { Supplier } from '@/modules/suppliers/schemas/supplier.schemas';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
@@ -15,23 +17,26 @@ export class Product {
   @Prop()
   description: string;
 
-  @Prop()
-  category: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Category.name })
+  category: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   stockQuantity: number;
 
-  @Prop()
-  supplier: string;
+  @Prop( { type: mongoose.Schema.Types.ObjectId, ref: Supplier.name })
+  supplier: mongoose.Schema.Types.ObjectId;
 
   @Prop()
-  imageUrl: [string];
+  image: [string];
 
   @Prop()
   manufacturingDate: Date; // ngày sản xuất
 
   @Prop()
   expiryDate: Date; // ngày hết hạn
+
+  @Prop()
+  status: 'active' | 'inactive';
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
