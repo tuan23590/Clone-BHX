@@ -6,6 +6,7 @@ import { Category } from './schemas/category.schemas';
 import { InjectModel } from '@nestjs/mongoose';
 import aqp from 'api-query-params';
 import { ConfigService } from '@nestjs/config';
+import { FilesService } from '@/files/files.service';
 
 @Injectable()
 export class CategoriesService {
@@ -13,7 +14,7 @@ export class CategoriesService {
   constructor(
     @InjectModel(Category.name)
     private categoryModel: Model<Category>,
-
+    private filesService: FilesService,
     private configService: ConfigService
   ) {}
 
@@ -72,13 +73,17 @@ export class CategoriesService {
   }
 
   async update(updateCategoryDto: UpdateCategoryDto) {
-    const { name, description } = updateCategoryDto;
+    const { name, description,image } = updateCategoryDto;
     const category = await this.categoryModel.findById(updateCategoryDto._id).exec();
     if (!category) {
       throw new BadRequestException('Doanh mục không tồn tại');
     }
+
+    if (image) await this.filesService.remove(category.image);
+
     category.name = name;
     category.description = description;
+    category.image = image;
     await category.save();
     return category;
   }
@@ -88,6 +93,7 @@ export class CategoriesService {
     if (!category) {
       throw new BadRequestException('Doanh mục không tồn tại');
     }
+    if (category.image) await this.filesService.remove(category.image);
     await category.deleteOne();
     return { message: 'Xóa doanh mục thành công' };
   }

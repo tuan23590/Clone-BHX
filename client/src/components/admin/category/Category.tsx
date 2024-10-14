@@ -34,11 +34,11 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { usePathname, useRouter } from "next/navigation";
 import { AppContext } from "@/context/AppProvider";
-import { handleDeleteUserAction } from "@/action/userAction";
 import AlertDialogModal from "@/components/AlertDialogModal";
-import ModalEditUser from "../user/modal.editUser";
 import { formatDateTime } from "@/utils/fomart";
 import { Tooltip } from "@mui/joy";
+import { handleDeleteCategoryAction } from "@/action/categoryAction";
+import ModalEditCategory from "./modal.editCategory";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -70,25 +70,24 @@ function RowMenu({
   data: {
     _id: string;
     name: string;
-    email: string;
-    address: string;
-    phone: string;
+    description: string;
+    image: string;
   };
 }) {
   const { openSnackbar } = React.useContext(AppContext);
   const [openConfirm, setOpenConfirm] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const handleDelete = async () => {
-    const res = await handleDeleteUserAction(data._id);
+    const res = await handleDeleteCategoryAction(data._id);
     if (res) {
       openSnackbar({
-        message: "Xóa người dùng thành công",
+        message: "Xóa danh mục thành công",
         color: "success",
       });
       return true;
     } else {
       openSnackbar({
-        message: "Xóa người dùng thất bại",
+        message: "Xóa danh mục thất bại",
         color: "danger",
       });
       return false;
@@ -117,14 +116,15 @@ function RowMenu({
         open={openConfirm}
         setOpen={setOpenConfirm}
         title="Xác nhận xóa"
-        content={`Bạn có chắc chắn muốn xóa người dùng <span
+        content={`Bạn có chắc chắn muốn xóa danh mục: 
+          <span
           style="color: red"
-          >${data.name || data._id}</span> không?`}
+          >${data?.name}</span> không?`}
         buttonContent="Xóa"
         type="alert"
         handleFunction={handleDelete}
       />
-      <ModalEditUser open={openEdit} setOpen={setOpenEdit} formData={data} />
+      <ModalEditCategory open={openEdit} setOpen={setOpenEdit} formData={data} />
     </>
   );
 }

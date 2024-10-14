@@ -8,7 +8,7 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
-import { Box, Link, ModalClose, Textarea } from "@mui/joy";
+import { Box, Link, ModalClose, ModalOverflow, Textarea } from "@mui/joy";
 import { AppContext } from "@/context/AppProvider";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { handleCreateCategoryAction } from "@/action/categoryAction";
@@ -76,6 +76,7 @@ export default function ModalAddCategory({
           }
         }}
       >
+        <ModalOverflow>
         <ModalDialog size="lg" minWidth={"30%"}>
           <ModalClose />
           <DialogTitle>Thêm danh mục</DialogTitle>
@@ -131,6 +132,7 @@ export default function ModalAddCategory({
             </Stack>
           </form>
         </ModalDialog>
+        </ModalOverflow>
       </Modal>
     </React.Fragment>
   );

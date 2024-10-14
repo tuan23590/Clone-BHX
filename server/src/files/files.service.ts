@@ -28,6 +28,5 @@ export class FilesService {
        return err;
       }
      });
-    return `This action removes a #${fileName} file`;
   }
 }
