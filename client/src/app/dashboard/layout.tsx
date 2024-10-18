@@ -11,13 +11,14 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AdminHeader from "@/components/adminLayout/admin.header";
 import AdminSidebar from "@/components/adminLayout/admin.sidebar";
 import { auth } from "@/auth";
-import AddUserButton from "@/components/admin/user/addUserButton";
 
 export default async function AdminLayout({
   children,
 }: Readonly<{ children?: React.ReactNode }>) {
   const session = await auth();
   return (
+    <html lang="en">
+      <body>
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100dvh" }}>
@@ -77,5 +78,7 @@ export default async function AdminLayout({
         </Box>
       </Box>
     </CssVarsProvider>
+    </body>
+    </html>
   );
 }
