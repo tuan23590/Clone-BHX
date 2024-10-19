@@ -39,6 +39,7 @@ import { formatDateTime } from "@/utils/fomart";
 import { Tooltip } from "@mui/joy";
 import { handleDeleteCategoryAction } from "@/action/categoryAction";
 import ModalEditCategory from "./modal.editCategory";
+import ModalCategoryDetail from "./modal.categoryParent";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -124,7 +125,11 @@ function RowMenu({
         type="alert"
         handleFunction={handleDelete}
       />
-      <ModalEditCategory open={openEdit} setOpen={setOpenEdit} formData={data} />
+      <ModalEditCategory
+        open={openEdit}
+        setOpen={setOpenEdit}
+        formData={data}
+      />
     </>
   );
 }
@@ -171,6 +176,8 @@ export default function Category({ categories, meta }: UserProps) {
   const [order, setOrder] = React.useState<Order>("desc");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [openCategory, setOpenCategory] = React.useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = React.useState<any>();
   const { replace } = useRouter();
   const pathname = usePathname();
   const pages = renderPages({
@@ -340,7 +347,13 @@ export default function Category({ categories, meta }: UserProps) {
           </thead>
           <tbody>
             {[...categories].sort(getComparator(order, "id")).map((row) => (
-              <tr key={row.id}>
+              <tr
+                key={row.id}
+                onClick={() => {
+                  setOpenCategory(true);
+                  setSelectedCategory(row);
+                }}
+              >
                 <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
                     size="sm"
@@ -365,7 +378,9 @@ export default function Category({ categories, meta }: UserProps) {
                     {formatDateTime(row.createdAt)}
                   </Typography>
                 </td>
-                <td>
+                <td onClick={(event) => {
+                    event.stopPropagation();
+                  }}>
                   <Link href={row.image} target="_blank" color="primary">
                     <img
                       src={row.image}
@@ -384,7 +399,9 @@ export default function Category({ categories, meta }: UserProps) {
                       maxWidth: 300,
                     }}
                   >
-                    <Typography level="body-xs" noWrap>{row.name}</Typography>
+                    <Typography level="body-xs" noWrap>
+                      {row.name}
+                    </Typography>
                   </Tooltip>
                 </td>
                 <td>
@@ -400,7 +417,11 @@ export default function Category({ categories, meta }: UserProps) {
                     </Typography>
                   </Tooltip>
                 </td>
-                <td>
+                <td
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
                   <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                     <RowMenu data={row} />
                   </Box>
@@ -459,6 +480,11 @@ export default function Category({ categories, meta }: UserProps) {
           Trang tiếp
         </Button>
       </Box>
+      <ModalCategoryDetail
+        open={openCategory}
+        setOpen={setOpenCategory}
+        formData={selectedCategory}
+      />
     </React.Fragment>
   );
 }

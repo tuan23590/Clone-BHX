@@ -31,7 +31,6 @@ const CategoryPage = async (props: Props) => {
       next: { tags: ["list-categories"] },
     },
   });
-  console.log(res);
   return (
     <>
     <Box
@@ -48,7 +47,16 @@ const CategoryPage = async (props: Props) => {
             <Typography level="h2" component="h1">
               Danh mục
             </Typography>
+            <Box sx={{
+              display: "flex",
+              gap: 1,
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "start", sm: "center" },
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}>
             <AddCategoryButton />
+            </Box>
           </Box>
       <OrderList />
       <Category categories={res?.data?.results ?? []} meta={res?.data?.meta} />

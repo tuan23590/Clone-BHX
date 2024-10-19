@@ -13,7 +13,7 @@ export class Category {
   description: string;
 
   @Prop()
-  products: string[];
+  subCategories: string[];
 
   @Prop()
   image: string;

@@ -34,7 +34,7 @@ export const handleCreateCategoryAction = async ({
   return res;
 };
 
-export const handleUpdateCategoryAction = async({
+export const handleUpdateCategoryAction = async ({
   _id,
   name,
   description,
@@ -63,7 +63,7 @@ export const handleUpdateCategoryAction = async({
       _id,
       name,
       description,
-      image : fileUploadData ? fileUploadData?.data[0]?.fileName : image,
+      image: fileUploadData ? fileUploadData?.data[0]?.fileName : image,
     },
   });
   revalidateTag("list-categories");
@@ -81,5 +81,17 @@ export const handleDeleteCategoryAction = async (_id: string) => {
     },
   });
   revalidateTag("list-categories");
+  return res;
+};
+
+export const handleGetAllCategoriesAction = async () => {
+  const session = await auth();
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "GET",
+    url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/categories`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+  });
   return res;
 };
