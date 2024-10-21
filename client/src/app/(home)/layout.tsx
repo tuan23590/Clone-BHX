@@ -29,14 +29,16 @@ export default async function RootLayout({
           <AppProvider>
             <ThemeRegistry options={{ key: "joy" }}>
               <HomeHeader />
-              {/* <Container sx={{ padding: "0px 0px !important" }}>
-                <Grid container spacing={2}>
+              <Container sx={{ padding: "0px 0px !important" }}>
+                <Grid container columnSpacing={2}>
                   <Grid sm={3}>
                     <HomeSidebar categories={categories.data.results}/>
                   </Grid>
-                  <Grid sm={9}>{children}</Grid>
+                  <Grid sm={9}>
+                    {children}
+                  </Grid>
                 </Grid>
-              </Container> */}
+              </Container>
             </ThemeRegistry>
           </AppProvider>
         </NextAuthWrapper>

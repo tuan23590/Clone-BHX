@@ -65,6 +65,7 @@ export default function HomeHeader() {
                 justifyContent: "center",
                 backgroundColor: "#00713b",
                 borderRadius: "10px",
+                textDecoration: "none !important",
                 '&:hover': {
                   backgroundColor: "#66bb6a",
 

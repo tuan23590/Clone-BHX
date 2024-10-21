@@ -2,6 +2,7 @@
 
 import {
   Box,
+  Divider,
   Link,
   List,
   ListItem,
@@ -31,19 +32,22 @@ type HomeSidebarProps = {
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
   return (
     <Box sx={{
-      overflow: "auto", height: "90vh",
+      maxHeight: "90vh", overflowX: "auto",
+      scrollbarWidth: "thin",
       width: "100%",
-      padding: 2,
       border: "1px solid",
       borderColor: "divider",
     }}>
       {categories.map((category) => (
-        <Box key={category._id}>
+        <Box key={category._id} sx={{borderBottom: "1px solid", borderColor: "divider"}}>
           <Toggler
             renderToggle={({ open, setOpen }) => (
-              <ListItemButton onClick={() => setOpen(!open)}>
+              <ListItemButton onClick={() => setOpen(!open)} sx={{padding: 1}}>
                 <ListItemContent>
-                  <Typography level="title-lg">{category.name}</Typography>
+                  <Typography sx={{
+                    fontWeight: "bold",
+                    fontSize: "0.8rem",
+                  }}>{category.name.toUpperCase()}</Typography>
                 </ListItemContent>
                 <KeyboardArrowDownIcon
                   sx={[
@@ -54,20 +58,29 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
                       : {
                           transform: "none",
                         },
-                  ]}
+                  ]
+                }
+                  
                 />
               </ListItemButton>
             )}
           >
-            <List sx={{ gap: 0.5 }}>
+            <List sx={{ gap: 0.5, 
+              padding: 0,
+              "& .MuiListItem-root": {
+                padding: 0,
+              },
+             }}>
               {category.subCategories.map((subCategory) => (
                 <ListItem key={subCategory._id}>
                   <ListItemButton>
                     <Link href={`#`} sx={{
                       color: "inherit",
                       textDecoration: "none !important",
+                      display: "flex",
+                      width: "100%",
                     }}>
-                      {subCategory.name}
+                      <Typography pl={1} level="body-sm">{subCategory.name}</Typography>
                     </Link>
                   </ListItemButton>
                 </ListItem>

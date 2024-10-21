@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
+import { handleGetAllCategoriesAction } from "@/action/categoryAction";
+import HomeContent from "@/components/home/home.content";
 
-
-export default function Home() {
+export default async function Home() {
+  const listCategories = await handleGetAllCategoriesAction();
   return (
-    <Typography variant="h1">Hello, world!</Typography>
+    <HomeContent listCategories={listCategories.data.results} />
   );
 }

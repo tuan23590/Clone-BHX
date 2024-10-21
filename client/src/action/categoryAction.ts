@@ -51,8 +51,6 @@ export const handleUpdateCategoryAction = async ({
 
   const fileUploadData = await handleUploadFileAction(fileUpload);
 
-  console.log(fileUploadData);
-
   const res = await sendRequest<IBackendRes<any>>({
     method: "PATCH",
     url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/categories`,
@@ -63,7 +61,7 @@ export const handleUpdateCategoryAction = async ({
       _id,
       name,
       description,
-      image: fileUploadData ? fileUploadData?.data[0]?.fileName : image,
+      image: fileUploadData ? fileUploadData?.data[0]?.fileName : image.split("/").pop(),
     },
   });
   revalidateTag("list-categories");
