@@ -62,8 +62,12 @@ export class ProductsService {
     return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(_id: string) {
+    const product = await this.productModel.findById(_id).exec();
+    if (!product) {
+      throw new BadRequestException('Không tìm thấy sản phẩm');
+    }
+    return product;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

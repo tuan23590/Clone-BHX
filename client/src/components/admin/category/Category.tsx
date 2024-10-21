@@ -354,7 +354,9 @@ export default function Category({ categories, meta }: UserProps) {
                   setSelectedCategory(row);
                 }}
               >
-                <td style={{ textAlign: "center", width: 120 }}>
+                <td style={{ textAlign: "center", width: 120 }} onClick={(event) => {
+                    event.stopPropagation();
+                  }}>
                   <Checkbox
                     size="sm"
                     checked={selected.includes(row._id)}

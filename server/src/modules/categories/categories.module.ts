@@ -12,5 +12,6 @@ import { FilesModule } from '@/files/files.module';
   ],
   controllers: [CategoriesController],
   providers: [CategoriesService],
+  exports: [CategoriesService],
 })
 export class CategoriesModule {}

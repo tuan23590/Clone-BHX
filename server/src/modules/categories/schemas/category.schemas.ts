@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -12,7 +12,7 @@ export class Category {
   @Prop()
   description: string;
 
-  @Prop()
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'SubCategory' })
   subCategories: string[];
 
   @Prop()

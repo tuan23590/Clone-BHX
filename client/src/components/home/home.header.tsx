@@ -14,12 +14,13 @@ export default function HomeHeader() {
       sx={{
         background:
           "radial-gradient(159.85% 367.97% at 150% 123.85%, #ffe147 0%, #65ae17 38.76%, #469c4b 59.65%, #00713b 100%)",
-        height: "90px", // Đặt chiều cao cho Box để dễ nhìn thấy background
         display: "flex",
+        height: "90px",
+        overflow: "hidden",
       }}
     >
       <Container sx={{ padding: "0px 0px !important" }}>
-        <Grid container spacing={2} paddingTop={1}>
+        <Grid container spacing={2} paddingTop={1.5}>
           <Grid sm={3}>
             <Image src={logo} alt="logo" width={150} />
             <Typography
@@ -28,7 +29,7 @@ export default function HomeHeader() {
                 color: "white",
                 display: "flex",
                 alignItems: "center",
-                padding: "5px 0px",
+                padding: "5px 3px",
                 backgroundColor: "#00713b",
                 borderRadius: "10px 10px 0px 0px",
               }}

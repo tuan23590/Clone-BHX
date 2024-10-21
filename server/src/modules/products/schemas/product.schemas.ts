@@ -17,8 +17,8 @@ export class Product {
   @Prop()
   description: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Category.name })
-  category: mongoose.Schema.Types.ObjectId;
+  @Prop()
+  category: string;
 
   @Prop()
   stockQuantity: number;

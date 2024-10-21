@@ -4,6 +4,8 @@ import { SubCategoriesController } from './sub-categories.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SubCategory, SubCategorySchema } from './schemas/sub-category.schemas';
 import { FilesModule } from '@/files/files.module';
+import { CategoriesModule } from '../categories/categories.module';
+import { ProductsModule } from '../products/products.module';
 
 @Module({
   imports: [
@@ -11,6 +13,8 @@ import { FilesModule } from '@/files/files.module';
       { name: SubCategory.name, schema: SubCategorySchema },
     ]),
     FilesModule,
+    CategoriesModule,
+    ProductsModule,
   ],
   controllers: [SubCategoriesController],
   providers: [SubCategoriesService],

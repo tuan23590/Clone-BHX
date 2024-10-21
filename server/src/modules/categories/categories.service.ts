@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { Category } from './schemas/category.schemas';
 import { InjectModel } from '@nestjs/mongoose';
 import aqp from 'api-query-params';
@@ -49,6 +49,7 @@ export class CategoriesService {
 
     const results = await this.categoryModel
     .find(filter)
+    .populate('subCategories')
     .limit(pageSize)
     .skip(offset)
     .sort(sort as any)
@@ -68,8 +69,12 @@ export class CategoriesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(_id: string) {
+    const category = await this.categoryModel.findById(_id).exec();
+    if (!category) {
+      throw new BadRequestException('Doanh mục không tồn tại');
+    }
+    return category;
   }
 
   async update(updateCategoryDto: UpdateCategoryDto) {
@@ -78,7 +83,6 @@ export class CategoriesService {
     if (!category) {
       throw new BadRequestException('Doanh mục không tồn tại');
     }
-
     if (image) await this.filesService.remove(category.image);
 
     category.name = name;
@@ -96,5 +100,27 @@ export class CategoriesService {
     if (category.image) await this.filesService.remove(category.image);
     await category.deleteOne();
     return { message: 'Xóa doanh mục thành công' };
+  }
+
+  async updateSubCategories (parentCategory: string, subCategory: string) {
+    const category = await this.categoryModel.findById(parentCategory).exec();
+    if (!category) {
+      throw new BadRequestException('Doanh mục không tồn tại');
+    }
+    category.subCategories.push(subCategory);
+    await category.save();
+  }
+
+  async removeSubCategories (parentCategory: string, subCategory: string) {
+    const category = await this.categoryModel.findById(parentCategory).exec();
+    if (!category) {
+      throw new BadRequestException('Doanh mục không tồn tại');
+    }
+
+    const index = category.subCategories.indexOf(subCategory);
+    if (index > -1) {
+      category.subCategories.splice(index, 1);
+    }
+    await category.save();
   }
 }

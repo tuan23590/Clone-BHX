@@ -22,13 +22,13 @@ export class SubCategoriesController {
     return this.subCategoriesService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubCategoryDto: UpdateSubCategoryDto) {
-    return this.subCategoriesService.update(+id, updateSubCategoryDto);
+  @Patch()
+  update(@Body() updateSubCategoryDto: UpdateSubCategoryDto) {
+    return this.subCategoriesService.update(updateSubCategoryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subCategoriesService.remove(+id);
+  @Delete(':_id')
+  remove(@Param('_id') _id: string) {
+    return this.subCategoriesService.remove(_id);
   }
 }

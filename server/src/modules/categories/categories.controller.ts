@@ -21,9 +21,9 @@ export class CategoriesController {
     return this.categoriesService.findAll(query, +current, +pageSize);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  @Get(':_id')
+  findOne(@Param('_id') _id: string) {
+    return this.categoriesService.findOne(_id);
   }
 
   @Patch()

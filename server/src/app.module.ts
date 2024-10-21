@@ -21,6 +21,7 @@ import { SuppliersModule } from './modules/suppliers/suppliers.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SubCategoriesModule } from './modules/sub-categories/sub-categories.module';
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { join } from 'path';
     ShoppingCartModule,
     SuppliersModule,
     FilesModule,
+    SubCategoriesModule, 
   ],
   controllers: [AppController],
   providers: [
