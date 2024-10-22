@@ -15,7 +15,7 @@ export class SubCategory {
   @Prop()
   image: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Product' })
   products: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })

@@ -34,7 +34,7 @@ export default async function RootLayout({
                   <Grid sm={3}>
                     <HomeSidebar categories={categories.data.results}/>
                   </Grid>
-                  <Grid sm={9}>
+                  <Grid sm={9} pt={2}>
                     {children}
                   </Grid>
                 </Grid>

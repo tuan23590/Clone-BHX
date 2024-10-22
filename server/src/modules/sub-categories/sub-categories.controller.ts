@@ -17,9 +17,9 @@ export class SubCategoriesController {
     return this.subCategoriesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.subCategoriesService.findOne(+id);
+  @Get(':_id')
+  findOne(@Param('_id') _id: string) {
+    return this.subCategoriesService.findOne(_id);
   }
 
   @Patch()

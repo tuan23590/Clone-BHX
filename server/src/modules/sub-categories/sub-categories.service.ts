@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FilesService } from '@/files/files.service';
 import { ConfigService } from '@nestjs/config';
 import { CategoriesService } from '../categories/categories.service';
-import { ProductsService } from '../products/products.service';
+import { Product } from '../products/schemas/product.schemas';
 
 @Injectable()
 export class SubCategoriesService {
@@ -17,20 +17,23 @@ export class SubCategoriesService {
     private filesService: FilesService,
     private configService: ConfigService,
     private categoriesService: CategoriesService,
-    private productsService: ProductsService,
   ) {}
 
   async create(createSubCategoryDto: CreateSubCategoryDto) {
     const { name, description, image, parentCategory } = createSubCategoryDto;
 
     // kiểm tra danh mục con có tồn tại không
-    const existedSubCategory = await this.subCategoryModel.findOne({ name }).exec();
+    const existedSubCategory = await this.subCategoryModel
+      .findOne({ name })
+      .exec();
     if (existedSubCategory) {
       throw new BadRequestException('Danh mục con đã tồn tại');
     }
 
     // kiểm tra danh mục cha có tồn tại không
-    const existedParentCategory = await this.categoriesService.findOne(String(parentCategory));
+    const existedParentCategory = await this.categoriesService.findOne(
+      String(parentCategory),
+    );
     if (!existedParentCategory) {
       throw new BadRequestException('Danh mục cha không tồn tại');
     }
@@ -44,7 +47,10 @@ export class SubCategoriesService {
     });
     await subCategory.save();
 
-    await this.categoriesService.updateSubCategories(parentCategory, String(subCategory._id));
+    await this.categoriesService.updateSubCategories(
+      parentCategory,
+      String(subCategory._id),
+    );
 
     return subCategory;
   }
@@ -54,8 +60,24 @@ export class SubCategoriesService {
     return subCategories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subCategory`;
+  async findOne(_id: string) {
+    const subCategory = await this.subCategoryModel
+      .findById(_id)
+      .select('-parentCategory')
+      .populate<{ products: Product[] }>('products')
+      .exec();
+    if (!subCategory) {
+      throw new BadRequestException('Không tìm thấy danh mục con');
+    }
+
+    const fileDomain = this.configService.get<string>('FILE_DOMAIN');
+    subCategory.products.forEach((product) => {
+      product.image = `${fileDomain}/${product.image}`;
+      product.listImage.forEach((image, index) => {
+        product.listImage[index] = `${fileDomain}/${image}`;
+      });
+    });
+    return subCategory;
   }
 
   async update(updateSubCategoryDto: UpdateSubCategoryDto) {
@@ -68,11 +90,7 @@ export class SubCategoriesService {
     }
 
     // nếu có ảnh thì xóa ảnh cũ
-    if(image) await this.filesService.remove(subCategory.image);
-
-    products && products.forEach(async (product) => {
-      await this.productsService.findOne(String(product));
-    });
+    if (image) await this.filesService.remove(subCategory.image);
 
     // cập nhật thông tin danh mục con
     subCategory.name = name;
@@ -83,7 +101,6 @@ export class SubCategoriesService {
   }
 
   async remove(_id: string) {
-
     // kiểm tra danh mục con có tồn tại không
     const subCategory = await this.subCategoryModel.findById(_id).exec();
     if (!subCategory) {
@@ -95,8 +112,35 @@ export class SubCategoriesService {
     await subCategory.deleteOne();
 
     // xóa danh mục con trong danh mục cha
-    await this.categoriesService.removeSubCategories(String(subCategory.parentCategory), _id);
+    await this.categoriesService.removeSubCategories(
+      String(subCategory.parentCategory),
+      _id,
+    );
 
     return { message: 'Xóa danh mục con thành công' };
+  }
+
+  async updateProducts(_id: string, product: string) {
+    const subCategory = await this.subCategoryModel.findById(_id).exec();
+    if (!subCategory) {
+      throw new BadRequestException('Không tìm thấy danh mục con');
+    }
+
+    subCategory.products.push(product);
+    await subCategory.save();
+    return subCategory;
+  }
+
+  async removeProducts(_id: string, product: string) {
+    const subCategory = await this.subCategoryModel.findById(_id).exec();
+    if (!subCategory) {
+      throw new BadRequestException('Không tìm thấy danh mục con');
+    }
+
+    subCategory.products = subCategory.products.filter(
+      (item) => item.toString() !== product,
+    );
+    await subCategory.save();
+    return subCategory;
   }
 }

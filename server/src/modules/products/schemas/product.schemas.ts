@@ -1,4 +1,5 @@
 import { Category } from '@/modules/categories/schemas/category.schemas';
+import { SubCategory } from '@/modules/sub-categories/schemas/sub-category.schemas';
 import { Supplier } from '@/modules/suppliers/schemas/supplier.schemas';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
@@ -17,7 +18,7 @@ export class Product {
   @Prop()
   description: string;
 
-  @Prop()
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: SubCategory.name })
   category: string;
 
   @Prop()
@@ -27,7 +28,10 @@ export class Product {
   supplier: mongoose.Schema.Types.ObjectId;
 
   @Prop()
-  image: [string];
+  image: string;
+
+  @Prop()
+  listImage: string[];
 
   @Prop()
   manufacturingDate: Date; // ngày sản xuất

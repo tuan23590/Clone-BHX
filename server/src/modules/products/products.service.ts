@@ -4,12 +4,14 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schemas';
 import { Model } from 'mongoose';
+import { SubCategoriesService } from '../sub-categories/sub-categories.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name)
     private productModel: Model<Product>,
+    private subCategoriesService: SubCategoriesService,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -43,6 +45,11 @@ export class ProductsService {
       manufacturingDate,
       expiryDate,
     });
+
+    await this.subCategoriesService.updateProducts(
+      category,
+      String(newProduct._id),
+    );
 
     return newProduct;
   }
