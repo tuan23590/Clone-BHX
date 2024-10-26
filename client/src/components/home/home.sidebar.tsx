@@ -10,7 +10,7 @@ import {
   ListItemContent,
   Typography,
 } from "@mui/joy";
-import React from "react";
+import React, {useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Toggler from "../Toggler";
 
@@ -32,9 +32,8 @@ type HomeSidebarProps = {
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
   return (
     <Box sx={{
-      maxHeight: "90vh", overflowX: "auto",
+      maxHeight: "90vh", overflowX: "auto", width: '100%',
       scrollbarWidth: "thin",
-      width: "100%",
       border: "1px solid",
       borderColor: "divider",
     }}>
@@ -74,7 +73,8 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
               {category.subCategories.map((subCategory) => (
                 <ListItem key={subCategory._id}>
                   <ListItemButton>
-                    <Link href={`#`} sx={{
+                    <Link href={`${subCategory._id}`} 
+                    sx={{
                       color: "inherit",
                       textDecoration: "none !important",
                       display: "flex",

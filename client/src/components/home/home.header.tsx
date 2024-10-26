@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Grid, Input, Link, Typography } from "@mui/joy";
+import { Box, Container, Grid, Input, Link, Tooltip, Typography } from "@mui/joy";
 import Image from "next/image";
 import logo from "../../Public/logo.png";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
@@ -22,7 +22,11 @@ export default function HomeHeader() {
       <Container sx={{ padding: "0px 0px !important" }}>
         <Grid container spacing={2} paddingTop={1.5}>
           <Grid sm={3}>
+            <Tooltip title="Trang chủ" color="success" variant="soft">
+            <Link href="/" sx={{ textDecoration: "none" }}>
             <Image src={logo} alt="logo" width={150} />
+            </Link>
+            </Tooltip>
             <Typography
               level="h4"
               sx={{

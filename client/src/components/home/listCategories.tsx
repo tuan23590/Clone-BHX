@@ -40,7 +40,7 @@ export default function ListCategories({
           }}
         >
           <Link
-            href={`#`}
+            href={`/${category._id}`}
             sx={{
               textDecoration: "none !important",
               color: "black",
