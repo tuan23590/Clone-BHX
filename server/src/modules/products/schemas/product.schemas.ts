@@ -9,21 +9,22 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema({ timestamps: true })
 export class Product {
 
-  @Prop()
-  productBio: {
-    featureSpecification: string;
-    productArticle: string;
-    shortDescription: string;
-  };
-
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: SubCategory.name })
   category: string;
 
   @Prop( { type: mongoose.Schema.Types.ObjectId, ref: Supplier.name })
   supplier: mongoose.Schema.Types.ObjectId;
 
-  @Prop()
+  @Prop({type: Object})
+  productBio: {
+    featureSpecification: string;
+    productArticle: string;
+    shortDescription: string;
+  };
+
+  @Prop({type: [Object]})
   variations: {
+    _id: string;
     productCode: string[];
     name: string;
     size: string;

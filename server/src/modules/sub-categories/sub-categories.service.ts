@@ -72,9 +72,11 @@ export class SubCategoriesService {
 
     const fileDomain = this.configService.get<string>('FILE_DOMAIN');
     subCategory.products.forEach((product) => {
-      product.image = `${fileDomain}/${product.image}`;
-      product.listImage.forEach((image, index) => {
-        product.listImage[index] = `${fileDomain}/${image}`;
+      product.variations.forEach((variation) => {
+        variation.image = `${fileDomain}/${variation.image}`;
+        variation.listImage.forEach((image, index) => {
+          variation.listImage[index] = `${fileDomain}/${image}`;
+        });
       });
     });
     return subCategory;

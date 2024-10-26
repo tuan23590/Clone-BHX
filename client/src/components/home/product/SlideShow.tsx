@@ -62,7 +62,8 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
           onClick={() => {
             if(currentIndex > 0) {
               setCurrentIndex((prev) => prev - 1);
-            }
+            }else
+              setCurrentIndex(listImage.length - 1);
           }}
         >
           <ArrowBackIcon color="success" />
@@ -78,7 +79,8 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
           onClick={() => {
             if(currentIndex < listImage.length - 1) {
               setCurrentIndex((prev) => prev + 1);
-            }
+            }else
+              setCurrentIndex(0);
           }}
         >
           <ArrowForwardIcon color="success" />

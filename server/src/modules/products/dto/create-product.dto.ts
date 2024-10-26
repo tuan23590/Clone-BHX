@@ -1,30 +1,28 @@
 import { IsMongoId, IsNotEmpty } from "class-validator";
 
 export class CreateProductDto {
-
-    @IsNotEmpty({ message: 'Tên sản phẩm không được để trống' })
-    productName: string;
-
-    @IsNotEmpty({ message: 'Giá sản phẩm không được để trống' })
-    price: number;
-
-    @IsNotEmpty({ message: 'Mô tả sản phẩm không được để trống' })
-    description: string;
-
-    @IsNotEmpty({ message: 'Danh mục sản phẩm không được để trống' })
+    @IsNotEmpty()
     category: string;
+    
+    @IsNotEmpty()
+    supplier: number;
+    
+    @IsNotEmpty()
+    productBio: {
+        featureSpecification: string;
+        productArticle: string;
+        shortDescription: number;
+    }
 
-    @IsMongoId({ message: 'Nhà cung cấp không hợp lệ' })
-    @IsNotEmpty({ message: 'Nhà cung cấp không được để trống' })
-    supplier: string;
-
-    @IsNotEmpty({ message: 'Hình ảnh sản phẩm không được để trống' })
-    image: [string];
-
-    @IsNotEmpty({ message: 'Ngày sản xuất không được để trống' })
-    manufacturingDate: Date;
-
-    @IsNotEmpty({ message: 'Ngày hết hạn không được để trống' })
-    expiryDate: Date;
+    @IsNotEmpty()
+    variations: {
+        _id: string;
+        productCode: string;
+        name: string;
+        size: string;
+        price: number;
+        image: string;
+        listImage: string;
+    }[]
 
 }
