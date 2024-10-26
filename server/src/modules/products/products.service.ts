@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schemas';
 import { Model } from 'mongoose';
 import { SubCategoriesService } from '../sub-categories/sub-categories.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProductsService {
@@ -12,6 +13,7 @@ export class ProductsService {
     @InjectModel(Product.name)
     private productModel: Model<Product>,
     private subCategoriesService: SubCategoriesService,
+    private configService: ConfigService,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -74,6 +76,11 @@ export class ProductsService {
     if (!product) {
       throw new BadRequestException('Không tìm thấy sản phẩm');
     }
+    const fileDomain = this.configService.get<string>('FILE_DOMAIN');
+      product.image = `${fileDomain}/${product.image}`;
+      product.listImage.forEach((image, index) => {
+        product.listImage[index] = `${fileDomain}/${image}`;
+    });
     return product;
   }
 

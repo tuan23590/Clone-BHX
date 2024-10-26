@@ -36,6 +36,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
       scrollbarWidth: "thin",
       border: "1px solid",
       borderColor: "divider",
+      backgroundColor: 'white',
     }}>
       {categories.map((category) => (
         <Box key={category._id} sx={{borderBottom: "1px solid", borderColor: "divider"}}>

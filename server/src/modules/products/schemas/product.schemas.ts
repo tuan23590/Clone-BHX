@@ -10,37 +10,29 @@ export type ProductDocument = HydratedDocument<Product>;
 export class Product {
 
   @Prop()
-  productName: string;
-
-  @Prop()
-  price: number;
-
-  @Prop()
-  description: string;
+  productBio: {
+    featureSpecification: string;
+    productArticle: string;
+    shortDescription: string;
+  };
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: SubCategory.name })
   category: string;
-
-  @Prop()
-  stockQuantity: number;
 
   @Prop( { type: mongoose.Schema.Types.ObjectId, ref: Supplier.name })
   supplier: mongoose.Schema.Types.ObjectId;
 
   @Prop()
-  image: string;
-
-  @Prop()
-  listImage: string[];
-
-  @Prop()
-  manufacturingDate: Date; // ngày sản xuất
-
-  @Prop()
-  expiryDate: Date; // ngày hết hạn
-
-  @Prop()
-  status: 'active' | 'inactive';
+  variations: {
+    productCode: string[];
+    name: string;
+    size: string;
+    price: number;
+    stockQuantity: number;
+    status: 'active' | 'inactive';
+    image: string;
+    listImage: string[];
+  }[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -9,7 +9,7 @@ import ThemeRegistry from "../ThemeRegistry";
 import AppProvider from "@/context/AppProvider";
 import HomeHeader from "@/components/home/home.header";
 import HomeSidebar from "@/components/home/home.sidebar";
-import { Container, Grid } from "@mui/joy";
+import { Box, Container, Grid } from "@mui/joy";
 import { handleGetAllCategoriesAction } from "@/action/categoryAction";
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -28,6 +28,12 @@ export default async function RootLayout({
         <NextAuthWrapper>
           <AppProvider>
             <ThemeRegistry options={{ key: "joy" }}>
+              <Box sx={{
+                backgroundColor: "#eeeeee",
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+              }}>
               <HomeHeader />
               <Container sx={{ padding: "0px 0px !important" }}>
                 <Grid container columnSpacing={2}>
@@ -39,6 +45,7 @@ export default async function RootLayout({
                   </Grid>
                 </Grid>
               </Container>
+              </Box>
             </ThemeRegistry>
           </AppProvider>
         </NextAuthWrapper>
