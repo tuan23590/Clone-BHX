@@ -22,6 +22,7 @@ import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SubCategoriesModule } from './modules/sub-categories/sub-categories.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -77,6 +78,7 @@ import { SubCategoriesModule } from './modules/sub-categories/sub-categories.mod
     SuppliersModule,
     FilesModule,
     SubCategoriesModule, 
+    AddressModule,
   ],
   controllers: [AppController],
   providers: [

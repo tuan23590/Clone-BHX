@@ -1,6 +1,14 @@
 "use client";
 
-import { Box, Container, Grid, Input, Link, Tooltip, Typography } from "@mui/joy";
+import {
+  Box,
+  Container,
+  Grid,
+  Input,
+  Link,
+  Tooltip,
+  Typography,
+} from "@mui/joy";
 import Image from "next/image";
 import logo from "../../Public/logo.png";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
@@ -23,9 +31,9 @@ export default function HomeHeader() {
         <Grid container spacing={2} paddingTop={1.5}>
           <Grid sm={3}>
             <Tooltip title="Trang chủ" color="success" variant="soft">
-            <Link href="/" sx={{ textDecoration: "none" }}>
-            <Image src={logo} alt="logo" width={150} />
-            </Link>
+              <Link href="/" sx={{ textDecoration: "none" }}>
+                <Image src={logo} alt="logo" width={150} />
+              </Link>
             </Tooltip>
             <Typography
               level="h4"
@@ -49,10 +57,23 @@ export default function HomeHeader() {
                 <SearchIcon fontSize="large" sx={{ color: "green" }} />
               }
               endDecorator={
-                <ShoppingCartOutlinedIcon
-                  fontSize="large"
-                  sx={{ color: "green" }}
-                />
+                <Link
+                  href="/cart"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "white",
+                    textDecoration: "none",
+                    "&:hover": {
+                      color: "#66bb6a",
+                    },
+                  }}
+                >
+                  <ShoppingCartOutlinedIcon
+                    fontSize="large"
+                    sx={{ color: "green" }}
+                  />
+                </Link>
               }
               size="lg"
             />
@@ -70,10 +91,9 @@ export default function HomeHeader() {
                 backgroundColor: "#00713b",
                 borderRadius: "10px",
                 textDecoration: "none !important",
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: "#66bb6a",
-
-                }
+                },
               }}
             >
               <PersonOutlineOutlinedIcon sx={{ color: "white" }} />
