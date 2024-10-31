@@ -2,11 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ShoppingCartService } from './shopping-cart.service';
 import { CreateShoppingCartDto } from './dto/create-shopping-cart.dto';
 import { UpdateShoppingCartDto } from './dto/update-shopping-cart.dto';
+import { Public } from '@/decorator/public';
 
 @Controller('shopping-cart')
 export class ShoppingCartController {
   constructor(private readonly shoppingCartService: ShoppingCartService) {}
 
+  @Public()
   @Post()
   create(@Body() createShoppingCartDto: CreateShoppingCartDto) {
     return this.shoppingCartService.create(createShoppingCartDto);
@@ -17,9 +19,10 @@ export class ShoppingCartController {
     return this.shoppingCartService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shoppingCartService.findOne(+id);
+  @Public()
+  @Get(':_id')
+  findOne(@Param('_id') _id: string) {
+    return this.shoppingCartService.findOne(_id);
   }
 
   @Patch(':id')

@@ -22,7 +22,17 @@ export class Product {
     shortDescription: string;
   };
 
-  @Prop({type: [Object]})
+  @Prop({type: [{
+    _id: String,
+    productCode: [String],
+    name: String,
+    size: String,
+    price: Number,
+    stockQuantity: Number,
+    status: String,
+    image: String,
+    listImage: [String]
+  }]})
   variations: {
     _id: string;
     productCode: string[];
