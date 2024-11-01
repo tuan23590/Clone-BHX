@@ -2,10 +2,13 @@
 
 import { Box, Button, Grid, Radio, RadioGroup, Typography } from "@mui/joy";
 import SlideShow from "./SlideShow";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { handleAddCartAction } from "@/action/cartAction";
+import { AppContext } from "@/context/AppProvider";
 
 type ProductProps = {
   data: {
+    _id: string;
     productBio: {
       featureSpecification: string;
       productArticle: string;
@@ -24,9 +27,22 @@ type ProductProps = {
 };
 
 export default function ProductPage({ data, _id }: ProductProps) {
+  const { openSnackbar } = useContext(AppContext);
   const [selectedvariation, setSelectedVariation] = useState(
     data?.variations.find((item) => item._id === _id)
   );
+  const handleAddCart = async () => {
+    const res = await handleAddCartAction(data._id, 1);
+    if (res.data) {
+      openSnackbar({
+        message: "Thêm vào giỏ hàng thành công",
+        color: "success",
+      });
+    } else {
+      openSnackbar({ message: "Thêm vào giỏ hàng thất bại", color: "danger" });
+    }
+    console.log("selectedvariation", selectedvariation);
+  };
   return (
     <Grid container columnGap={1}>
       <Grid
@@ -63,7 +79,7 @@ export default function ProductPage({ data, _id }: ProductProps) {
                   justifyContent: "space-between",
                   padding: 1,
                   border:
-                    selectedvariation === variation
+                    selectedvariation?._id === variation._id
                       ? "1px solid #81c784"
                       : "1px solid #e0e0e0",
                   borderRadius: 5,
@@ -80,8 +96,7 @@ export default function ProductPage({ data, _id }: ProductProps) {
                 <Radio
                   value={variation}
                   color="success"
-                  checked={selectedvariation === variation}
-                  onChange={() => setSelectedVariation(variation)}
+                  checked={selectedvariation?._id === variation._id}
                 />
                 <Box
                   sx={{
@@ -128,6 +143,7 @@ export default function ProductPage({ data, _id }: ProductProps) {
               },
             },
           }}
+          onClick={handleAddCart}
         >
           Mua
         </Button>

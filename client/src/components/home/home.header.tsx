@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Badge,
   Box,
   Container,
   Grid,
@@ -16,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-export default function HomeHeader() {
+export default function HomeHeader({carts}:{ carts: IBackendRes<any> | null; }) {
   return (
     <Box
       sx={{
@@ -69,10 +70,12 @@ export default function HomeHeader() {
                     },
                   }}
                 >
+                  <Badge badgeContent={carts?.data.totalAmount} color="success">
                   <ShoppingCartOutlinedIcon
                     fontSize="large"
                     sx={{ color: "green" }}
                   />
+                  </Badge>
                 </Link>
               }
               size="lg"

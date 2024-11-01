@@ -11,6 +11,7 @@ import HomeHeader from "@/components/home/home.header";
 import HomeSidebar from "@/components/home/home.sidebar";
 import { Box, Container, Grid } from "@mui/joy";
 import { handleGetAllCategoriesAction } from "@/action/categoryAction";
+import { handleGetCartAction } from "@/action/cartAction";
 export const metadata: Metadata = {
   title: "Trang chủ",
   description: "Trang chủ",
@@ -22,6 +23,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const categories = await handleGetAllCategoriesAction();
+  const carts = await handleGetCartAction();
   return (
     <html lang="en">
       <body>
@@ -34,7 +36,7 @@ export default async function RootLayout({
                 display: "flex",
                 flexDirection: "column",
               }}>
-              <HomeHeader />
+              <HomeHeader carts={carts} />
               <Container sx={{ padding: "0px 0px !important" }}>
                 <Grid container columnSpacing={2}>
                   <Grid sm={3}>
