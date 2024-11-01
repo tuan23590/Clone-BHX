@@ -70,7 +70,7 @@ export default function HomeHeader({carts}:{ carts: IBackendRes<any> | null; }) 
                     },
                   }}
                 >
-                  <Badge badgeContent={carts?.data.totalAmount} color="success">
+                  <Badge badgeContent={carts?.data?.totalAmount|| 0} color="success">
                   <ShoppingCartOutlinedIcon
                     fontSize="large"
                     sx={{ color: "green" }}

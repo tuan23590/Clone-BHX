@@ -5,7 +5,8 @@ import { cookies } from "next/headers";
 
 export const handleAddCartAction = async (
   productId: string,
-  quantity: number
+  quantity: number,
+  variationId: string
 ) => {
   const cookieStore = cookies();
   const cookiesData = cookieStore.get("cartId");
@@ -17,6 +18,7 @@ export const handleAddCartAction = async (
       productId,
       quantity,
       _id: cookiesData?.value,
+      variationId,
     },
   });
   if (res.data) {

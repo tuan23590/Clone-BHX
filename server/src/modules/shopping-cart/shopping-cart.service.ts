@@ -15,18 +15,18 @@ export class ShoppingCartService {
 
 
   async create(createShoppingCartDto: CreateShoppingCartDto) {
-    const { _id, productId, quantity } = createShoppingCartDto;
+    const { _id, productId, quantity,variationId } = createShoppingCartDto;
     const shoppingCart = await this.shoppingCartModel.findById(_id);
     if (shoppingCart) {
       let productExists = false;
       shoppingCart.products.forEach((product) => {
-        if (String(product.productId) === productId) {
+        if (String(product.productId) === productId && String(product.variationId) === variationId) {
           product.quantity = Number(product.quantity) + Number(quantity);
           productExists = true;
         }
       });
       if (!productExists) {
-        shoppingCart.products.push({ productId, quantity: Number(quantity) });
+        shoppingCart.products.push({ productId, quantity: Number(quantity), variationId });
       }
   
       // Loại bỏ các sản phẩm có quantity <= 0
@@ -38,7 +38,7 @@ export class ShoppingCartService {
       return shoppingCart.save();
     } else {
       return this.shoppingCartModel.create({
-        products: [{ productId, quantity: Number(quantity) }],
+        products: [{ productId, quantity: Number(quantity), variationId }],
         totalAmount: Number(quantity)
       });
     }

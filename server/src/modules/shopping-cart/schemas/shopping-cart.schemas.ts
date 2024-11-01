@@ -14,6 +14,7 @@ export class ShoppingCart {
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: Product.name },
         quantity: { type: Number, required: true },
+        variationId: { type: mongoose.Schema.Types.ObjectId, required: true },
       },
     ],
   })
@@ -21,6 +22,7 @@ export class ShoppingCart {
     {
       productId: string;
       quantity: number;
+      variationId: string;
     },
   ];
 

@@ -14,4 +14,8 @@ export class CreateShoppingCartDto {
     @IsMongoId( {message: 'Id không hợp lệ'})
     @IsOptional()
     _id: string;
+
+    @IsMongoId( {message: 'Id biến thể không hợp lệ'})
+    @IsNotEmpty({message: 'Mã biến thể không được để trống'})
+    variationId: string;
 }

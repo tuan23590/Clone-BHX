@@ -32,16 +32,16 @@ export default function ProductPage({ data, _id }: ProductProps) {
     data?.variations.find((item) => item._id === _id)
   );
   const handleAddCart = async () => {
-    const res = await handleAddCartAction(data._id, 1);
+    const res = await handleAddCartAction(data._id, 1, selectedvariation?._id as string);
     if (res.data) {
       openSnackbar({
         message: "Thêm vào giỏ hàng thành công",
         color: "success",
       });
     } else {
+      console.log(res);
       openSnackbar({ message: "Thêm vào giỏ hàng thất bại", color: "danger" });
     }
-    console.log("selectedvariation", selectedvariation);
   };
   return (
     <Grid container columnGap={1}>

@@ -6,7 +6,6 @@ import { Product } from './schemas/product.schemas';
 import { Model } from 'mongoose';
 import { SubCategoriesService } from '../sub-categories/sub-categories.service';
 import { ConfigService } from '@nestjs/config';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductsService {
@@ -28,9 +27,6 @@ export class ProductsService {
     if (existedProduct) {
       throw new BadRequestException('Sản phẩm đã tồn tại');
     }
-    variations.forEach((variation) => {
-      variation._id = uuidv4();
-    });
 
     const newProduct = await this.productModel.create({
       category,
