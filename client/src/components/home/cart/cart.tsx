@@ -3,6 +3,9 @@ import { Box, Button, ButtonGroup, Grid, Link, Typography } from "@mui/joy";
 import React from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddressForm from "./addressForm";
+import { handleAddCartAction } from "@/action/cartAction";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 type CartPageProps = {
   tinhs: any[];
@@ -11,6 +14,28 @@ type CartPageProps = {
 
 export default function CartPage({ tinhs, cart }: CartPageProps) {
   const [openAddressForm, setOpenAddressForm] = React.useState<boolean>(false);
+
+  const handleChageQuantity = (
+    productId: string,
+    variationId: string,
+    type: string,
+    quantity?: number
+  ) => {
+    if (type === "all") {
+      cart?.data?.products.forEach((product: any) => {
+        handleAddCartAction(
+          product._id,
+          -product.quantity,
+          product.variation._id
+        );
+      });
+    } else
+      handleAddCartAction(
+        productId,
+        type === "+" ? 1 : quantity ? -quantity : -1,
+        variationId
+      );
+  };
   return (
     <Box>
       <Box
@@ -70,31 +95,93 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
             }}
           >
             <Grid container>
-              <Grid xs={2}>
+              <Grid
+                xs={2}
+                sx={{
+                  position: "relative",
+                }}
+              >
+                <HighlightOffIcon
+                  sx={{
+                    fontSize: 30,
+                    position: "absolute",
+                    zIndex: 1,
+                    opacity: 0.3,
+                    top: 0,
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 1,
+                    },
+                  }}
+                  onClick={(e) => {
+                    const confirm = window.confirm(
+                      "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
+                    );
+                    if (confirm)
+                      handleChageQuantity(
+                        product._id,
+                        product.variation._id,
+                        "-",
+                        product.quantity
+                      );
+                  }}
+                />
                 <img src={product.variation.image} width={"100%"} />
               </Grid>
               <Grid xs={8}>
-                <Link href={`/${product.category}/${product.variation._id}`} underline="none">
-                <Typography level="body-md">
-                  {product.variation.name}
-                </Typography>
+                <Link
+                  href={`/${product.category}/${product.variation._id}`}
+                  underline="none"
+                >
+                  <Typography level="body-md">
+                    {product.variation.name}
+                  </Typography>
                 </Link>
               </Grid>
-              <Grid xs={2} sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "end",
-              }}>
+              <Grid
+                xs={2}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
                 <Typography level="title-lg">
                   {product.variation.price.toLocaleString()}đ
                 </Typography>
                 <ButtonGroup>
-                  <Button>-</Button>
+                  <Button
+                    onClick={(e) => {
+                      if (product.quantity == 1) {
+                        const confirm = window.confirm(
+                          "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
+                        );
+                        if (!confirm) return;
+                      }
+                      handleChageQuantity(
+                        product._id,
+                        product.variation._id,
+                        "-"
+                      );
+                    }}
+                  >
+                    -
+                  </Button>
                   <Button disabled variant="solid" sx={{ width: 1 }}>
                     {product.quantity}
                   </Button>
-                  <Button>+</Button>
+                  <Button
+                    onClick={(e) =>
+                      handleChageQuantity(
+                        product._id,
+                        product.variation._id,
+                        "+"
+                      )
+                    }
+                  >
+                    +
+                  </Button>
                 </ButtonGroup>
                 <Typography level="body-xs">
                   Giá: {product.total.toLocaleString()}đ/đơn vị
@@ -103,6 +190,32 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
             </Grid>
           </Box>
         ))}
+        <Typography
+          mt={1}
+          textAlign="end"
+          level="body-md"
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            alignItems: "center",
+            cursor: "pointer",
+            "&:hover": {
+              ".icon": {
+                color: "red",
+              },
+              color: "red",
+            },
+          }}
+          onClick={() => {
+            const confirm = window.confirm(
+              "Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng không?"
+            );
+            if (confirm) handleChageQuantity("", "", "all");
+          }}
+        >
+          <DeleteOutlineIcon className="icon" sx={{ fontSize: 20, mr: 0.2 }} />
+          Xóa hết giỏ hàng
+        </Typography>
       </Box>
     </Box>
   );
