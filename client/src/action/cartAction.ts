@@ -22,7 +22,9 @@ export const handleAddCartAction = async (
     },
   });
   if (res.data) {
-    cookieStore.set("cartId", res.data._id);
+    cookieStore.set("cartId", res.data._id,{
+      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    });
   }
   revalidateTag("carts");
   return res;

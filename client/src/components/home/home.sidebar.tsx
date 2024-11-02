@@ -74,7 +74,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
               {category.subCategories.map((subCategory) => (
                 <ListItem key={subCategory._id}>
                   <ListItemButton>
-                    <Link href={`${subCategory._id}`} 
+                    <Link href={`/${subCategory._id}`} 
                     sx={{
                       color: "inherit",
                       textDecoration: "none !important",
