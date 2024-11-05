@@ -56,7 +56,8 @@ export class SubCategoriesService {
   }
 
   async findAll() {
-    const subCategories = await this.subCategoryModel.find().exec();
+    // return random 10 sub categories
+    const subCategories = await this.subCategoryModel.aggregate([ { $sample: { size: 15 } } ]).exec();
     return subCategories;
   }
 
@@ -70,15 +71,15 @@ export class SubCategoriesService {
       throw new BadRequestException('Không tìm thấy danh mục con');
     }
 
-    const fileDomain = this.configService.get<string>('FILE_DOMAIN');
-    subCategory.products.forEach((product) => {
-      product.variations.forEach((variation) => {
-        variation.image = `${fileDomain}/${variation.image}`;
-        variation.listImage.forEach((image, index) => {
-          variation.listImage[index] = `${fileDomain}/${image}`;
-        });
-      });
-    });
+    //const fileDomain = this.configService.get<string>('FILE_DOMAIN');
+    // subCategory.products.forEach((product) => {
+    //   product.variations.forEach((variation) => {
+    //     variation.image = `${fileDomain}/${variation.image}`;
+    //     variation.listImage.forEach((image, index) => {
+    //       variation.listImage[index] = `${fileDomain}/${image}`;
+    //     });
+    //   });
+    // });
     return subCategory;
   }
 

@@ -54,9 +54,9 @@ export class CategoriesService {
     .skip(offset)
     .sort(sort as any)
 
-    results.map((category) => {
-      category.image && (category.image = `${this.configService.get<string>('FILE_DOMAIN')}/${category.image}`);
-    });
+    // results.map((category) => {
+    //   category.image && (category.image = `${this.configService.get<string>('FILE_DOMAIN')}/${category.image}`);
+    // });
 
     return {
       meta: {

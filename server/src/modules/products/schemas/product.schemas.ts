@@ -32,6 +32,7 @@ export class Product {
         status: String,
         image: String,
         listImage: [String],
+        unit: String,
       },
     ],
   })
@@ -44,6 +45,7 @@ export class Product {
     status: 'active' | 'inactive';
     image: string;
     listImage: string[];
+    unit: string;
   }[];
 }
 

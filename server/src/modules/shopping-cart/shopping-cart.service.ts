@@ -68,7 +68,7 @@ export class ShoppingCartService {
     if (!cart) {
       throw new BadRequestException('Không tìm thấy giỏ hàng');
     }
-    const fileDomain = this.configService.get('FILE_DOMAIN');
+    // const fileDomain = this.configService.get('FILE_DOMAIN');
     const fillterCart = cart.products.map((product) => {
       const { productId, quantity, variationId } = product;
       const { _id, productBio, variations,category } = productId as any;
@@ -76,10 +76,10 @@ export class ShoppingCartService {
         (variation) => String(variation._id) === String(variationId),
       );
       variation.productCode = null;
-      variation.image = `${fileDomain}/${variation.image}`;
-      variation.listImage = variation.listImage.map(
-        (image) => `${fileDomain}/${image}`,
-      );
+      // variation.image = `${fileDomain}/${variation.image}`;
+      // variation.listImage = variation.listImage.map(
+      //   (image) => `${fileDomain}/${image}`,
+      // );
       const total = quantity * variation.price;
       return { _id,category, productBio, variation, total, quantity };
     });

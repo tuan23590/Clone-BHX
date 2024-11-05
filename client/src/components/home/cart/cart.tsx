@@ -148,7 +148,7 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
                 }}
               >
                 <Typography level="title-lg">
-                  {product.variation.price.toLocaleString()}đ
+                  {product.total.toLocaleString()}đ
                 </Typography>
                 <ButtonGroup>
                   <Button
@@ -184,38 +184,61 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
                   </Button>
                 </ButtonGroup>
                 <Typography level="body-xs">
-                  Giá: {product.total.toLocaleString()}đ/đơn vị
+                  Giá: {product.variation.price.toLocaleString()}đ/{product.variation.size}{" "}
                 </Typography>
               </Grid>
             </Grid>
           </Box>
         ))}
-        <Typography
-          mt={1}
-          textAlign="end"
-          level="body-md"
-          sx={{
-            display: "flex",
-            justifyContent: "end",
-            alignItems: "center",
-            cursor: "pointer",
-            "&:hover": {
-              ".icon": {
+        {cart?.data?.products.length > 0 && (
+          <Typography
+            mt={1}
+            textAlign="end"
+            level="body-md"
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+              cursor: "pointer",
+              "&:hover": {
+                ".icon": {
+                  color: "red",
+                },
                 color: "red",
               },
-              color: "red",
-            },
-          }}
-          onClick={() => {
-            const confirm = window.confirm(
-              "Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng không?"
-            );
-            if (confirm) handleChageQuantity("", "", "all");
-          }}
-        >
-          <DeleteOutlineIcon className="icon" sx={{ fontSize: 20, mr: 0.2 }} />
-          Xóa hết giỏ hàng
-        </Typography>
+            }}
+            onClick={() => {
+              const confirm = window.confirm(
+                "Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng không?"
+              );
+              if (confirm) handleChageQuantity("", "", "all");
+            }}
+          >
+            <DeleteOutlineIcon
+              className="icon"
+              sx={{ fontSize: 20, mr: 0.2 }}
+            />
+            Xóa hết giỏ hàng
+          </Typography>
+        )}
+        {cart?.data?.products.length == 0 && (
+          <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "20vh",
+            flexDirection: "column"
+          }}>
+            <Typography textAlign="center" level="h4">
+            Giỏ hàng trống
+          </Typography>
+          <Link href="/" underline="none">
+            <Button variant="solid" color="success" sx={{ mt: 1 }}>
+              Tiếp tục mua hàng
+            </Button>
+          </Link>
+          </Box>
+        )}
       </Box>
     </Box>
   );

@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Divider,
   Link,
   List,
   ListItem,
@@ -10,7 +9,7 @@ import {
   ListItemContent,
   Typography,
 } from "@mui/joy";
-import React, {useState } from "react";
+import React from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Toggler from "../Toggler";
 
@@ -25,11 +24,13 @@ type HomeSidebarProps = {
       name: string;
       description: string;
       image: string;
+      products: any[]
     }[];
   }[];
 };
 
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
+  console.log("categories", categories);
   return (
     <Box sx={{
       maxHeight: "90vh", overflowX: "auto", width: '100%',
@@ -81,7 +82,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
                       display: "flex",
                       width: "100%",
                     }}>
-                      <Typography pl={1} level="body-sm">{subCategory.name}</Typography>
+                      <Typography pl={1} level="body-sm">{subCategory.name} ({subCategory.products.length} sản phẩm)</Typography>
                     </Link>
                   </ListItemButton>
                 </ListItem>

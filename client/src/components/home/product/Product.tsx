@@ -32,7 +32,11 @@ export default function ProductPage({ data, _id }: ProductProps) {
     data?.variations.find((item) => item._id === _id)
   );
   const handleAddCart = async () => {
-    const res = await handleAddCartAction(data._id, 1, selectedvariation?._id as string);
+    const res = await handleAddCartAction(
+      data._id,
+      1,
+      selectedvariation?._id as string
+    );
     if (res.data) {
       openSnackbar({
         message: "Thêm vào giỏ hàng thành công",
@@ -111,10 +115,9 @@ export default function ProductPage({ data, _id }: ProductProps) {
                     backgroundColor: "#43a047",
                   }}
                 >
-                  <Typography
-                    sx={{ color: "white" }}
-                    level="title-md"
-                  >{`${variation.size} - ${variation.price}đ`}</Typography>
+                  <Typography sx={{ color: "white" }} level="title-md">{`${
+                    variation.price.toLocaleString()
+                  }đ - ${variation.size}`}</Typography>
                 </Box>
               </Box>
             ))}

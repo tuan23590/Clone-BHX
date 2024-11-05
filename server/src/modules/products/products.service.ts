@@ -73,13 +73,13 @@ export class ProductsService {
     if (!product) {
       throw new BadRequestException('Không tìm thấy sản phẩm');
     }
-    const fileDomain = this.configService.get<string>('FILE_DOMAIN');
-    product.variations.forEach((variation, index) => {
-      product.variations[index].image = `${fileDomain}/${variation.image}`;
-      product.variations[index].listImage.forEach((image, index2) => {
-        product.variations[index].listImage[index2] = `${fileDomain}/${image}`;
-      });
-    });
+    // // const fileDomain = this.configService.get<string>('FILE_DOMAIN');
+    // product.variations.forEach((variation, index) => {
+    //   // product.variations[index].image = `${fileDomain}/${variation.image}`;
+    //   product.variations[index].listImage.forEach((image, index2) => {
+    //     product.variations[index].listImage[index2] = `${fileDomain}/${image}`;
+    //   });
+    // });
     return product;
   }
 

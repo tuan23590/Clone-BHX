@@ -14,7 +14,6 @@ export default function ListCategories({
       direction={"row"}
       sx={{
         overflow: "auto",
-        padding: "1rem",
         backgroundColor: "white",
         borderRadius: "5%",
         gap: "0.3rem",
