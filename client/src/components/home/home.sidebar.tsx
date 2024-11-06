@@ -30,7 +30,6 @@ type HomeSidebarProps = {
 };
 
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
-  console.log("categories", categories);
   return (
     <Box sx={{
       maxHeight: "90vh", overflowX: "auto", width: '100%',

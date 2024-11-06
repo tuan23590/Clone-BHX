@@ -3,7 +3,12 @@ import { Box, Link, Stack, Typography } from "@mui/joy";
 import React from "react";
 
 type ListCategoriesProps = {
-  listCategories: IBackendRes<any>[];
+  listCategories: {
+    _id: string;
+    name: string;
+    description: string;
+    image: string;
+  }[];
 };
 
 export default function ListCategories({

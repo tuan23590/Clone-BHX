@@ -47,23 +47,23 @@ export class ProductsService {
       .find()
       .populate({
         path: 'category',
-        select: '-products -createdAt -updatedAt -__v',
+        select: ' -createdAt -updatedAt -__v',
       })
       .populate({
         path: 'supplier',
         select: '-productsSupplied -createdAt -updatedAt -__v',
       })
       .exec();
-    const fileDomain = this.configService.get<string>('FILE_DOMAIN');
-    products.forEach((product) => {
-      product.variations.forEach((variation, index) => {
-        product.variations[index].image = `${fileDomain}/${variation.image}`;
-        product.variations[index].listImage.forEach((image, index2) => {
-          product.variations[index].listImage[index2] =
-            `${fileDomain}/${image}`;
-        });
-      });
-    });
+    // const fileDomain = this.configService.get<string>('FILE_DOMAIN');
+    // products.forEach((product) => {
+    //   product.variations.forEach((variation, index) => {
+    //     product.variations[index].image = `${fileDomain}/${variation.image}`;
+    //     product.variations[index].listImage.forEach((image, index2) => {
+    //       product.variations[index].listImage[index2] =
+    //         `${fileDomain}/${image}`;
+    //     });
+    //   });
+    // });
     return products;
   }
 

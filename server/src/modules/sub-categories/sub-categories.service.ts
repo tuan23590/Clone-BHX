@@ -56,10 +56,18 @@ export class SubCategoriesService {
   }
 
   async findAll() {
-    // return random 10 sub categories
-    const subCategories = await this.subCategoryModel.aggregate([ { $sample: { size: 15 } } ]).exec();
-    return subCategories;
+    const subCategories = await this.subCategoryModel
+      .find()
+      .populate<{ products: Product[] }>('products')
+      .exec();
+  
+    // Shuffle the array
+    const shuffled = subCategories.sort(() => 0.5 - Math.random());
+  
+    // Return the first 12 items from the shuffled array
+    return shuffled.slice(0, 12);
   }
+  
 
   async findOne(_id: string) {
     const subCategory = await this.subCategoryModel

@@ -29,7 +29,7 @@ export default function CategoryPage({ data }: CategoryProps) {
     <Box>
       <Stack direction="row" spacing={0.5} useFlexGap sx={{ flexWrap: "wrap" }}>
         {data?.products.map((product) => (
-          product.variations.map((variation) => (
+          product?.variations?.map((variation) => (
             <Box
               key={product._id}
               width={170}

@@ -14,3 +14,15 @@ export const handleGetOneProductAction = async (_id: string) => {
     });
     return res;
   };
+
+export const handleGetAllProductsAction = async () => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/products`,
+      headers: {
+        Authorization: `Bearer ${session?.user?.access_token}`,
+      },
+    });
+    return res;
+  };
