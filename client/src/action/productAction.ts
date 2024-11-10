@@ -1,6 +1,5 @@
 "use server";
 
-import { auth } from "@/auth";
 import { sendRequest } from "@/utils/api";
 
 export const handleGetOneProductAction = async (_id: string) => {

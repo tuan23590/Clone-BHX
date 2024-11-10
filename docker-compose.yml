@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  
+  mongodb:
+    image: mongo:5.0.15
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+  
+  nestjs-app:
+    build:
+      context: ./server  # Thư mục chứa Dockerfile của NestJS
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://root:123456@mongodb:27017/bhxdb?authSource=admin
+      - PORT=4000
+
+  # nextjs-app:
+  #   build:
+  #     context: ./client  # Thư mục chứa Dockerfile của Next.js
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - nestjs-app
+volumes:
+  mongodb_data_container:

@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import AddCategoryButton from "@/components/admin/category/addCategoryButton";
 import Category from "@/components/admin/category/Category";
 import OrderList from "@/components/admin/OrderList";
-import User from "@/components/admin/user/User";
 import { sendRequest } from "@/utils/api";
 import { Box, Typography } from "@mui/joy";
 import React from "react";

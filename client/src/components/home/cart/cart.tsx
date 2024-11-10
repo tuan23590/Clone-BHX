@@ -113,7 +113,7 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
                       opacity: 1,
                     },
                   }}
-                  onClick={(e) => {
+                  onClick={() => {
                     const confirm = window.confirm(
                       "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
                     );
@@ -152,7 +152,7 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
                 </Typography>
                 <ButtonGroup>
                   <Button
-                    onClick={(e) => {
+                    onClick={() => {
                       if (product.quantity == 1) {
                         const confirm = window.confirm(
                           "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
@@ -172,7 +172,7 @@ export default function CartPage({ tinhs, cart }: CartPageProps) {
                     {product.quantity}
                   </Button>
                   <Button
-                    onClick={(e) =>
+                    onClick={() =>
                       handleChageQuantity(
                         product._id,
                         product.variation._id,

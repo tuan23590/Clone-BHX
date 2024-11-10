@@ -38,7 +38,6 @@ export default function ModalForgotPassword({
   const {openSnackbar} = useContext(AppContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [_id, set_id] = useState("");
-  const [userEmail, setUserEmail] = useState(email);
     const handleSubmitFormStep0 = async (event: any) => {
         event.preventDefault();
         const res= await sendRequest<IBackendRes<any>>({

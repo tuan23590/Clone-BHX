@@ -47,13 +47,13 @@ export default function AddressForm({
   };
   const handleSubmit = (e: React.FormEvent<AddressFormElement>) => {
     e.preventDefault();
-    const phone = e.currentTarget.elements.phone.value;
-    const name = e.currentTarget.elements.name.value;
-    const gender = e.currentTarget.elements.gender.value;
-    const address = e.currentTarget.elements.address.value;
-    const tinh = e.currentTarget.elements.tinh.value;
-    const huyen = e.currentTarget.elements.huyen.value;
-    const xa = e.currentTarget.elements.xa.value;
+    // const phone = e.currentTarget.elements.phone.value;
+    // const name = e.currentTarget.elements.name.value;
+    // const gender = e.currentTarget.elements.gender.value;
+    // const address = e.currentTarget.elements.address.value;
+    // const tinh = e.currentTarget.elements.tinh.value;
+    // const huyen = e.currentTarget.elements.huyen.value;
+    // const xa = e.currentTarget.elements.xa.value;
   }
   return (
     <form

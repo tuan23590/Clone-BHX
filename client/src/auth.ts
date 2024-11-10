@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { InActiveUserError, InvalidEmailPasswordError } from "./utils/errors";
 import { sendRequest } from "./utils/api";
-import { IUser } from "./types/next-auth";
+import { IUser } from "./types";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -14,7 +14,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        let user = null;
         const res = await sendRequest<IBackendRes<ILogin>>({
           method: "POST",
           url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/auth/login`,
@@ -52,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     session({ session, token }) {
-      (session.user as IUser) = token.user;
+      (session.user as IUser | unknown) = token.user;
       return session;
     },
     authorized: async ({ auth }) => {

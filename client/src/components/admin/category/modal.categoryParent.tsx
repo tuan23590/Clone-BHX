@@ -9,8 +9,6 @@ import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import { Box, DialogActions, Link, ModalClose, ModalOverflow, Textarea } from "@mui/joy";
-import { AppContext } from "@/context/AppProvider";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 type ModalAddCategoryProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -32,7 +30,6 @@ export default function ModalCategoryDetail({
   setOpen,
   formData,
 }: ModalAddCategoryProps) {
-  const { openSnackbar } = React.useContext(AppContext);
   const handleSubmit = async (e: React.FormEvent<FormElement>) => {
     e.preventDefault();
   };

@@ -3,7 +3,6 @@ import { Box, Link, Typography } from "@mui/joy";
 import React from "react";
 import ListCategories from "./listCategories";
 import CategoryPage from "./category/category";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 type ListCategoriesProps = {
   listCategories: any[];

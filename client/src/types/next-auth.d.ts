@@ -1,7 +1,5 @@
-import NextAuth, { DefaultSession } from "next-auth";
-import { JWT } from "next-auth/jwt"
 
-interface IUser {
+export interface IUser {
     _id: string;
     name: string;
     email: string;
