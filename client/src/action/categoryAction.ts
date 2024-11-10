@@ -83,13 +83,9 @@ export const handleDeleteCategoryAction = async (_id: string) => {
 };
 
 export const handleGetAllCategoriesAction = async () => {
-  const session = await auth();
   const res = await sendRequest<IBackendRes<any>>({
     method: "GET",
     url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/categories`,
-    headers: {
-      Authorization: `Bearer ${session?.user?.access_token}`,
-    },
   });
   return res;
 };

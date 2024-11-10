@@ -40,7 +40,7 @@ export default async function RootLayout({
               <Container sx={{ padding: "0px 0px !important" }}>
                 <Grid container columnSpacing={2}>
                   <Grid sm={3}>
-                    <HomeSidebar categories={categories.data.results}/>
+                    <HomeSidebar categories={categories?.data?.results}/>
                   </Grid>
                   <Grid sm={9} pt={2}>
                     {children}

@@ -1,56 +1,95 @@
-'use client'
-import { sendRequest } from '@/utils/api'
-import { Box, Button, TextField, Typography } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+"use client";
+import React, { useContext } from "react";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Link from "@mui/joy/Link";
+import Input from "@mui/joy/Input";
+import Stack from "@mui/joy/Stack";
+import { useRouter } from "next/navigation";
+import { AppContext } from "@/context/AppProvider";
+import { sendRequest } from "@/utils/api";
 
-const RegisterPageClient = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [rePassword, setRePassword] = useState('')
-  const route = useRouter()
-  const handleRegister = async () => {
-    
-    const res= await sendRequest<IBackendRes<any>>({
-      method: 'POST',
+interface FormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement;
+  password: HTMLInputElement;
+  rePassword: HTMLInputElement;
+}
+interface SignInFormElement extends HTMLFormElement {
+  readonly elements: FormElements;
+}
+
+export default function RegisterPageClient() {
+  const { openSnackbar } = useContext(AppContext);
+  const router = useRouter();
+  const handleLogin = async (e: React.FormEvent<SignInFormElement>) => {
+    e.preventDefault();
+    const email = e.currentTarget.elements.email.value;
+    const password = e.currentTarget.elements.password.value;
+    const rePassword = e.currentTarget.elements.rePassword.value;
+    const res = await sendRequest<IBackendRes<any>>({
+      method: "POST",
       url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/auth/register`,
       body: {
         email,
         password,
-        rePassword
-      }
-    })
-    if (res?.data) {
-      console.log(res?.data)
-      alert('Register success')
-      route.push(`/verify/${res?.data?.data._id}`)
-    } else {
-      alert(res?.message)
+        rePassword,
+      },
+    });
+    if (res?.error) {
+      alert(res.error);
+    }else{
+      openSnackbar({ message: "Đăng ký thành công", color: "success" });
+      router.push(`/verify/${res?.data?.data._id}`)
     }
-  }
-
+  };
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      width: '100vw',
-      alignItems: 'center'
-    }}>
-      <Typography variant='h4' mb={2}>Register Page</Typography>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        width: 300
+    <>
+      <form onSubmit={handleLogin} style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        width: "100%",
+        maxWidth: "500px",
+        margin: "0 auto",
+        padding: "1rem",
+        border: "1px solid #ddd",
+        borderRadius: "5px",
       }}>
-        <TextField fullWidth label='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-        <TextField fullWidth label='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-        <TextField fullWidth label='Re-Password' value={rePassword} onChange={(e) => setRePassword(e.target.value)} />
-        <Button variant='contained' color='primary' onClick={handleRegister}>Register</Button>
-      </Box>
-    </Box>
-  )
+        <FormControl required>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            name="email"
+            autoFocus
+          />
+        </FormControl>
+        <FormControl required>
+          <FormLabel>Mật khẩu</FormLabel>
+          <Input type="password" name="password" />
+        </FormControl>
+        <FormControl required>
+          <FormLabel>Nhập lại mật khẩu</FormLabel>
+          <Input type="password" name="rePassword" />
+        </FormControl>
+        <Stack sx={{ gap: 2, mt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Link level="title-sm" href="/login">
+              Bạn đã có tài khoản? Đăng nhập ngay
+            </Link>
+          </Box>
+          <Button type="submit" fullWidth color="success">
+            Đăng ký
+          </Button>
+        </Stack>
+      </form>
+    </>
+  );
 }
-
-export default RegisterPageClient

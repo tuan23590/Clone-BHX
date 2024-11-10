@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SubCategoriesService } from './sub-categories.service';
 import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
+import { Public } from '@/decorator/public';
 
 @Controller('sub-categories')
 export class SubCategoriesController {
@@ -12,11 +13,13 @@ export class SubCategoriesController {
     return this.subCategoriesService.create(createSubCategoryDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.subCategoriesService.findAll();
   }
 
+  @Public()
   @Get(':_id')
   findOne(@Param('_id') _id: string) {
     return this.subCategoriesService.findOne(_id);
