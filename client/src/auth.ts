@@ -28,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             username: res.data?.user.email,
             email: res.data?.user.email,
             access_token: res.data?.access_token,
+            name: res.data?.user.name,
           };
         } else if (+res.statusCode === 401) {
           throw new InvalidEmailPasswordError();

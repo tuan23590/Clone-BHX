@@ -30,7 +30,6 @@ const CategoryPage = async (props: Props) => {
       next: { tags: ["list-categories"] },
     },
   });
-  console.log(res);
   return (
     <>
     <Box

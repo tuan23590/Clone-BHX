@@ -17,7 +17,6 @@ export default function Verify({ _id }: { _id: string }) {
         }
       })
       if (res?.data) {
-        console.log(res?.data)
         alert('Verify success')
         route.push(`/login`)
       } else {

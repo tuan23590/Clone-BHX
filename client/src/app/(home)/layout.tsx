@@ -12,6 +12,7 @@ import HomeSidebar from "@/components/home/home.sidebar";
 import { Box, Container, Grid } from "@mui/joy";
 import { handleGetAllCategoriesAction } from "@/action/categoryAction";
 import { handleGetCartAction } from "@/action/cartAction";
+import { auth } from "@/auth";
 export const metadata: Metadata = {
   title: "Trang chủ",
   description: "Trang chủ",
@@ -24,6 +25,7 @@ export default async function RootLayout({
 }>) {
   const categories = await handleGetAllCategoriesAction();
   const carts = await handleGetCartAction();
+  const session = await auth();
   return (
     <html lang="en">
       <body>
@@ -36,7 +38,7 @@ export default async function RootLayout({
                 display: "flex",
                 flexDirection: "column",
               }}>
-              <HomeHeader carts={carts} />
+              <HomeHeader carts={carts} session={session}/>
               <Container sx={{ padding: "0px 0px !important",
                 height: "90vh",
               }}>

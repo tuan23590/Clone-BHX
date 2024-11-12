@@ -183,7 +183,6 @@ export class UsersService {
     if (!user) throw new BadRequestException('Không tìm thấy người dùng');
     user.activationCode = generateCode();
     user.codeExpired = dayjs().add(5, 'minutes').toDate();
-    console.log('user', user);
     await user.save();
     return {
       statusCode: 200,

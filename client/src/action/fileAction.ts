@@ -32,5 +32,4 @@ export const handleUploadFileAction = async (
             Authorization: `Bearer ${session?.user?.access_token}`,
         },
     });
-    console.log(res);
   };

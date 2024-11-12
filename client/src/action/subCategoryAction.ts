@@ -18,6 +18,5 @@ export const handleGetAllSubCategoriesAction = async () => {
       },
     },
   ); 
-  console.log(res);
     return res;
   }

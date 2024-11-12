@@ -34,7 +34,6 @@ export default function LoginPageClient() {
     const email = e.currentTarget.elements.email.value;
     const password = e.currentTarget.elements.password.value;
     const res = await authenticate(email, password);
-    console.log(res);
     if (res?.error) {
       // alert(res.error);
       openSnackbar({ message: res.error, color: "danger" });

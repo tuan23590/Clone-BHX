@@ -45,7 +45,6 @@ export default function ModalAddUser({ open, setOpen }: ModalAddUserProps) {
     }else{
       openSnackbar({message: res?.message, color: "danger"});
     }
-    console.log(res);
   };
   return (
     <React.Fragment>

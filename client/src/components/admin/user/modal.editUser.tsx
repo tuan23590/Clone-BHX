@@ -56,7 +56,6 @@ export default function ModalEditUser({
         phone: e.currentTarget.elements.phone.value,
       },
     });
-    console.log(res);
     if (res.data) {
       openSnackbar({
         message: "Cập nhật người dùng thành công",

@@ -19,7 +19,6 @@ export default async function page() {
         address: `${shippingAddress.address}, ${shippingAddress.xa}, ${shippingAddress.huyen}, ${shippingAddress.tinh}`,
       }
     });
-    console.log("oders", oders);
     if(oders.data){
       return true;
     }else{

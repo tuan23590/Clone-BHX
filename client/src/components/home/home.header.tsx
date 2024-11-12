@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-export default function HomeHeader({carts}:{ carts: IBackendRes<any> | null; }) {
+export default function HomeHeader({carts,session}:{ carts: IBackendRes<any> | null; session: any }) {
   return (
     <Box
       sx={{
@@ -99,7 +99,7 @@ export default function HomeHeader({carts}:{ carts: IBackendRes<any> | null; }) 
               }}
             >
               <PersonOutlineOutlinedIcon sx={{ color: "white" }} />
-              Đăng nhập
+              {session?.user?.name ? session.user.name : "Đăng nhập"}
             </Link>
           </Grid>
         </Grid>

@@ -108,7 +108,6 @@ export default function ModalAddCategory({
                     onChange={(e) => {
                       if (e.target.files) {
                         setFile(Array.from(e.target.files));
-                        console.log(e.target.files);
                       }
                     }}
                   />
