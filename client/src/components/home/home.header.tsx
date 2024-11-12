@@ -101,6 +101,19 @@ export default function HomeHeader({carts,session}:{ carts: IBackendRes<any> | n
               <PersonOutlineOutlinedIcon sx={{ color: "white" }} />
               {session?.user?.name ? session.user.name : "Đăng nhập"}
             </Link>
+            {session?.user?.name && (
+              <Link href="/order" level="title-md" underline="none" sx={{ color: "white",
+                width: "100% !important",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#00713b",
+                borderRadius: "10px",
+                marginTop: "10px",
+               }}>
+              Đơn hàng đã đặt
+              </Link>
+            )}
           </Grid>
         </Grid>
       </Container>

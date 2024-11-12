@@ -9,5 +9,5 @@
 export { auth as middleware } from "@/auth";
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", '/order'],
 };

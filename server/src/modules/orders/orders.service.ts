@@ -23,7 +23,11 @@ export class OrdersService {
     const order = new this.orderModel({
       totalAmount: cart.totalAmount,
       totalPirce: cart.totalPirce,
-      products: cart.products,
+      products: cart.products.map((product) => ({
+        productId: product._id,
+        quantity: product.quantity,
+        variationId: product.variation,
+      })),
       shippingAddress: createOrderDto.shippingAddress,
     });
     await order.save();
