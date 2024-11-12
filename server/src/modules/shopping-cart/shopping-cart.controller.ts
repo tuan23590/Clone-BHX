@@ -30,8 +30,8 @@ export class ShoppingCartController {
     return this.shoppingCartService.update(+id, updateShoppingCartDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.shoppingCartService.remove(+id);
+  @Delete(':_id')
+  remove(@Param('_id') _id: string) {
+    return this.shoppingCartService.remove(_id);
   }
 }

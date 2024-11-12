@@ -34,3 +34,6 @@ services:
   #     - nestjs-app
 volumes:
   mongodb_data_container:
+
+# docker-compose build
+# docker-compose up -d

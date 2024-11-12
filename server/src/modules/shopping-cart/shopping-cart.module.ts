@@ -10,5 +10,6 @@ import { ShoppingCart, ShoppingCartSchema } from './schemas/shopping-cart.schema
   ],
   controllers: [ShoppingCartController],
   providers: [ShoppingCartService],
+  exports: [ShoppingCartService]
 })
 export class ShoppingCartModule {}

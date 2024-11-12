@@ -1,4 +1,5 @@
 import { handleGetAddressAction } from "@/action/addressAction";
+import { AppContext } from "@/context/AppProvider";
 import {
   Autocomplete,
   Button,
@@ -9,7 +10,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/joy";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 type AddressFormProps = {
   tinhs: any[];
@@ -34,10 +35,13 @@ export default function AddressForm({
   tinhs,
   setOpenAddressForm,
 }: AddressFormProps) {
+  const { openSnackbar } = useContext(AppContext);
   const [huyens, setHuyens] = React.useState<any[]>([]);
   const [xas, setXas] = React.useState<any[]>([]);
+  const [address, setAddress] = React.useState<any>(
+    JSON.parse(localStorage.getItem("address") || "{}")
+  );
   const handleGetHuyen = async (code: string) => {
-    console.log(code);
     const HuyenResponse = await handleGetAddressAction("huyen", code);
     setHuyens(HuyenResponse.data);
   };
@@ -47,29 +51,34 @@ export default function AddressForm({
   };
   const handleSubmit = (e: React.FormEvent<AddressFormElement>) => {
     e.preventDefault();
-    // const phone = e.currentTarget.elements.phone.value;
-    // const name = e.currentTarget.elements.name.value;
-    // const gender = e.currentTarget.elements.gender.value;
-    // const address = e.currentTarget.elements.address.value;
-    // const tinh = e.currentTarget.elements.tinh.value;
-    // const huyen = e.currentTarget.elements.huyen.value;
-    // const xa = e.currentTarget.elements.xa.value;
-  }
+    const phone = e.currentTarget.elements.phone.value;
+    const name = e.currentTarget.elements.name.value;
+    const gender = e.currentTarget.elements.gender.value;
+    const address = e.currentTarget.elements.address.value;
+    const tinh = e.currentTarget.elements.tinh.value;
+    const huyen = e.currentTarget.elements.huyen.value;
+    const xa = e.currentTarget.elements.xa.value;
+    localStorage.setItem(
+      "address",
+      JSON.stringify({ phone, name, gender, address, tinh, huyen, xa })
+    );
+    setOpenAddressForm(false);
+    openSnackbar({message: "Đã lưu địa chỉ", color: "success"});
+  };
   return (
-    <form
-      onSubmit={handleSubmit}
-    >
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid xs={12}>
           <FormControl required>
             <FormLabel>Số điện thoại</FormLabel>
-            <Input type="phone" name="phone" />
+            <Input type="phone" name="phone" defaultValue={address.phone} autoFocus/>
           </FormControl>
 
           <FormControl required>
             <RadioGroup
               name="gender"
               sx={{ gap: 2, flexWrap: "wrap", flexDirection: "row" }}
+              defaultValue={address.gender || "Anh"}
             >
               <Radio
                 value="none"
@@ -77,13 +86,23 @@ export default function AddressForm({
                   display: "none",
                 }}
               />
-              <Radio value="Anh" label="Anh" color="success" />
-              <Radio value="Chị" label="Chị" color="success" />
+              <Radio
+                value="Anh"
+                label="Anh"
+                color="success"
+                // defaultChecked={address.gender === "Anh"}
+              />
+              <Radio
+                value="Chị"
+                label="Chị"
+                color="success"
+                // defaultChecked={address.gender === "Chị"}
+              />
             </RadioGroup>
           </FormControl>
           <FormControl required>
             <FormLabel>Họ tên</FormLabel>
-            <Input type="name" name="name" />
+            <Input type="name" name="name" defaultValue={address.name} />
           </FormControl>
         </Grid>
         <Grid xs={6}>
@@ -92,6 +111,7 @@ export default function AddressForm({
             <Autocomplete
               name="tinh"
               options={tinhs}
+              defaultValue={tinhs.find((tinh) => tinh.name === address.tinh)}
               getOptionLabel={(option) => option.name}
               onChange={(e, value) => handleGetHuyen(value.code)}
             />
@@ -102,7 +122,8 @@ export default function AddressForm({
             <FormLabel>Quận/Huyện</FormLabel>
             <Autocomplete
               name="huyen"
-              options={huyens || []}
+              options={huyens.length > 0 ? huyens : [{ name: address.huyen }]}
+              defaultValue={address.huyen ? { name: address.huyen } : null}
               getOptionLabel={(option) => option?.name}
               onChange={(e, value) => handleGetXa(value.code)}
             />
@@ -113,7 +134,8 @@ export default function AddressForm({
             <FormLabel>Phường/Xã</FormLabel>
             <Autocomplete
               name="xa"
-              options={xas || []}
+              options={xas.length > 0 ? xas : [{ name: address.xa }]}
+              defaultValue={address.xa ? { name: address.xa } : null}
               getOptionLabel={(option) => option?.name}
             />
           </FormControl>
@@ -121,7 +143,11 @@ export default function AddressForm({
         <Grid xs={12}>
           <FormControl required>
             <FormLabel>Số nhà, tên đường</FormLabel>
-            <Input type="address" name="address" />
+            <Input
+              type="address"
+              name="address"
+              defaultValue={address.address}
+            />
           </FormControl>
         </Grid>
         <Grid xs={6}>

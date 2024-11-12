@@ -25,7 +25,6 @@ export default function HomeHeader({carts}:{ carts: IBackendRes<any> | null; }) 
           "radial-gradient(159.85% 367.97% at 150% 123.85%, #ffe147 0%, #65ae17 38.76%, #469c4b 59.65%, #00713b 100%)",
         display: "flex",
         height: "90px",
-        overflow: "hidden",
       }}
     >
       <Container sx={{ padding: "0px 0px !important" }}>

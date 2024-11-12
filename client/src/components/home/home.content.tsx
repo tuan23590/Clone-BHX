@@ -19,7 +19,12 @@ export default function HomeContent({ listCategories }: ListCategoriesProps) {
   return (
     <Box>
       <ListCategories listCategories={listCategories} />
-      {modifiedListCategories.map(
+     <Box sx={{
+      height: "75vh",
+      overflowX: "auto",
+      scrollbarWidth: "thin",
+     }}>
+     {modifiedListCategories.map(
         (category) =>
           category.products.length > 0 && (
             <Box
@@ -70,6 +75,7 @@ export default function HomeContent({ listCategories }: ListCategoriesProps) {
             </Box>
           )
       )}
+     </Box>
     </Box>
   );
 }

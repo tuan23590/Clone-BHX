@@ -31,6 +31,7 @@ export const handleAddCartAction = async (
 };
 
 export const handleGetCartAction = async () => {
+  
   const cookieStore = cookies();
   const cookiesData = cookieStore.get("cartId");
   if (!cookiesData) {

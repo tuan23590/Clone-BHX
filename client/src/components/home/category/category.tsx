@@ -1,7 +1,9 @@
 "use client";
+import { handleAddCartAction } from "@/action/cartAction";
+import { AppContext } from "@/context/AppProvider";
 import { Box, Button, Stack, Typography } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 
 type CategoryProps = {
   data: {
@@ -24,9 +26,33 @@ type CategoryProps = {
 };
 
 export default function CategoryPage({ data }: CategoryProps) {
+  const { openSnackbar } = useContext(AppContext);
   const router = useRouter();
+  const handleAddCart = async (
+    productId: string,
+    quantity: number,
+    variationId: string
+  ) => {
+    const res = await handleAddCartAction(
+      productId,
+      quantity,
+      variationId
+    );
+    if (res.data) {
+      openSnackbar({
+        message: "Thêm vào giỏ hàng thành công",
+        color: "success",
+      });
+    } else {
+      openSnackbar({ message: "Thêm vào giỏ hàng thất bại", color: "danger" });
+    }
+  };
   return (
-    <Box>
+    <Box sx={{
+      maxHeight: '88vh',
+      overflow: 'auto',
+      scrollbarWidth: 'thin',
+    }}>
       <Stack direction="row" spacing={0.5} useFlexGap sx={{ flexWrap: "wrap" }}>
         {data?.products.map((product) => (
           product?.variations?.map((variation) => (
@@ -87,6 +113,7 @@ export default function CategoryPage({ data }: CategoryProps) {
                   fullWidth
                   onClick={(e) => {
                     e.stopPropagation();
+                    handleAddCart(product._id, 1, variation._id);
                   }}
                 >
                   Mua hàng

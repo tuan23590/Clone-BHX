@@ -37,7 +37,9 @@ export default async function RootLayout({
                 flexDirection: "column",
               }}>
               <HomeHeader carts={carts} />
-              <Container sx={{ padding: "0px 0px !important" }}>
+              <Container sx={{ padding: "0px 0px !important",
+                height: "90vh",
+              }}>
                 <Grid container columnSpacing={2}>
                   <Grid sm={3}>
                     <HomeSidebar categories={categories?.data?.results}/>

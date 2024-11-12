@@ -78,7 +78,6 @@ export class SubCategoriesService {
     if (!subCategory) {
       throw new BadRequestException('Không tìm thấy danh mục con');
     }
-
     //const fileDomain = this.configService.get<string>('FILE_DOMAIN');
     // subCategory.products.forEach((product) => {
     //   product.variations.forEach((variation) => {

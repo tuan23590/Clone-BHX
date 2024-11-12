@@ -87,14 +87,14 @@ export class ShoppingCartService {
       (acc, product) => acc + product.total,
       0,
     );
-    return { totalAmount: cart.totalAmount, totalPirce, products: fillterCart };
+    return { totalAmount: cart.totalAmount, totalPirce, products: fillterCart, _id: cart._id };
   }
 
   update(id: number, updateShoppingCartDto: UpdateShoppingCartDto) {
     return `This action updates a #${id} shoppingCart`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} shoppingCart`;
+  async remove(_id: string) {
+    return this.shoppingCartModel.findByIdAndDelete(_id);
   }
 }
