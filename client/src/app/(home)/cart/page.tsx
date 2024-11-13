@@ -19,11 +19,7 @@ export default async function page() {
         address: `${shippingAddress.address}, ${shippingAddress.xa}, ${shippingAddress.huyen}, ${shippingAddress.tinh}`,
       }
     });
-    if(oders.data){
-      return true;
-    }else{
-      return false;
-    }
+    return oders;
   };
   return (
     <CartPage tinhs={tinhs} cart={cart} handleThanhToan={handleThanhToan} />

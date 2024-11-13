@@ -7,7 +7,6 @@ import FormLabel from "@mui/joy/FormLabel";
 import Link from "@mui/joy/Link";
 import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
-import { useRouter } from "next/navigation";
 import { authenticate } from "@/action/authAction";
 import ModalReactive from "./modal.reactive";
 import ModalForgotPassword from "./modal.forgotPassword";
@@ -28,7 +27,6 @@ export default function LoginPageClient() {
   const [openVerify, setOpenVerify] = useState(false);
   const [openForgot, setOpenForgot] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
-  const router = useRouter();
   const handleLogin = async (e: React.FormEvent<SignInFormElement>) => {
     e.preventDefault();
     const email = e.currentTarget.elements.email.value;
@@ -41,7 +39,7 @@ export default function LoginPageClient() {
         setOpenVerify(true);
       }
     } else {
-      router.push("/");
+      window.location.href = "/";
     }
   };
   return (

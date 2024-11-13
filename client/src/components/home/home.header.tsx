@@ -4,9 +4,14 @@ import {
   Badge,
   Box,
   Container,
+  Dropdown,
   Grid,
   Input,
   Link,
+  ListDivider,
+  Menu,
+  MenuButton,
+  MenuItem,
   Tooltip,
   Typography,
 } from "@mui/joy";
@@ -16,8 +21,15 @@ import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { signOut } from "next-auth/react";
 
-export default function HomeHeader({carts,session}:{ carts: IBackendRes<any> | null; session: any }) {
+export default function HomeHeader({
+  carts,
+  session,
+}: {
+  carts: IBackendRes<any> | null;
+  session: any;
+}) {
   return (
     <Box
       sx={{
@@ -69,51 +81,82 @@ export default function HomeHeader({carts,session}:{ carts: IBackendRes<any> | n
                     },
                   }}
                 >
-                  <Badge badgeContent={carts?.data?.totalAmount|| 0} color="success">
-                  <ShoppingCartOutlinedIcon
-                    fontSize="large"
-                    sx={{ color: "green" }}
-                  />
+                  <Badge
+                    badgeContent={carts?.data?.totalAmount || 0}
+                    color="success"
+                  >
+                    <ShoppingCartOutlinedIcon
+                      fontSize="large"
+                      sx={{ color: "green" }}
+                    />
                   </Badge>
                 </Link>
               }
               size="lg"
             />
           </Grid>
-          <Grid sm={3}>
-            <Link
-              href="/login"
-              level="h4"
-              sx={{
-                color: "white",
-                display: "flex",
-                height: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#00713b",
-                borderRadius: "10px",
-                textDecoration: "none !important",
-                "&:hover": {
-                  backgroundColor: "#66bb6a",
-                },
-              }}
-            >
-              <PersonOutlineOutlinedIcon sx={{ color: "white" }} />
-              {session?.user?.name ? session.user.name : "Đăng nhập"}
-            </Link>
-            {session?.user?.name && (
-              <Link href="/order" level="title-md" underline="none" sx={{ color: "white",
-                width: "100% !important",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#00713b",
-                borderRadius: "10px",
-                marginTop: "10px",
-               }}>
-              Đơn hàng đã đặt
-              </Link>
-            )}
+          <Grid
+            sm={3}
+            sx={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "center",
+            }}
+          >
+            <Dropdown>
+              <MenuButton
+                fullWidth
+                color="success"
+                variant="soft"
+                sx={{
+                  height: 45,
+                  fontSize: 16,
+                }}
+              >
+                <PersonOutlineOutlinedIcon sx={{ color: "green" }} />
+                {session?.user?.name ? (
+                  <>
+                    Xin chào,
+                    {session?.user?.name ? session.user.name : "Đăng nhập"}
+                  </>
+                ) : (
+                  "Tài khoản"
+                )}
+              </MenuButton>
+              <Menu
+                sx={{
+                  width: 290,
+                }}
+              >
+                {session?.user?.name && (
+                <MenuItem>
+                  <Link href="/order" underline="none" color="neutral">
+                    Đơn hàng của tôi
+                  </Link>
+                </MenuItem>
+                )} 
+                <ListDivider />
+                {session?.user?.name ? (
+                <MenuItem
+                  color="danger"
+                  onClick={async () => {
+                    const confirm = window.confirm(
+                      "Bạn có chắc chắn muốn đăng xuất không?"
+                    );
+                    if (confirm) await signOut();
+                  }}
+                >
+                  Đăng xuất
+                </MenuItem>
+                ) : (
+                <MenuItem>
+                  <Link href="/login" underline="none" color="success">
+                    Đăng nhập
+                  </Link>
+                </MenuItem>
+                )}
+              </Menu>
+            </Dropdown>
           </Grid>
         </Grid>
       </Container>

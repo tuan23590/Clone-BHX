@@ -9,11 +9,13 @@ export const handleCreateUserAction = async ({
   password,
   rePassword,
   name,
+  phone,
 }: {
   email: string;
   password: string;
   rePassword: string;
   name: string;
+  phone: string;
 }) => {
   const res = await sendRequest<IBackendRes<any>>({
     method: "POST",
@@ -23,6 +25,7 @@ export const handleCreateUserAction = async ({
       password: password.trim(),
       rePassword: rePassword.trim(),
       name: name.trim(),
+      phone: phone.trim(),
     },
   });
   revalidateTag("list-users");

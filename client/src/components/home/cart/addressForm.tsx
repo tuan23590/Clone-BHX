@@ -58,6 +58,12 @@ export default function AddressForm({
     const tinh = e.currentTarget.elements.tinh.value;
     const huyen = e.currentTarget.elements.huyen.value;
     const xa = e.currentTarget.elements.xa.value;
+
+    const phoneRegex = /^0\d{8,9}$/;
+    if (!phoneRegex.test(phone)) {
+      openSnackbar({message: "Số điện thoại không hợp lệ", color: "danger"});
+      return;
+    }
     localStorage.setItem(
       "address",
       JSON.stringify({ phone, name, gender, address, tinh, huyen, xa })

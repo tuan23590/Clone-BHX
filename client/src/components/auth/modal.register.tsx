@@ -32,6 +32,7 @@ interface FormRegisterElements extends HTMLFormControlsCollection {
     email: HTMLInputElement;
     password: HTMLInputElement;
     confirmPassword: HTMLInputElement;
+    phone: HTMLInputElement;
   }
 
 interface RegisterFormElement extends HTMLFormElement {
@@ -56,6 +57,7 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
       password: event.currentTarget.elements.password.value.trim(),
       rePassword: event.currentTarget.elements.confirmPassword.value.trim(),
       name: event.currentTarget.elements.name.value.trim(),
+      phone: event.currentTarget.elements.phone.value.trim(),
     });
     if (res?.data) {
       set_id(res.data.data._id);
@@ -171,6 +173,10 @@ export default function ModalRegister({ open, setOpen }: ModalRegisterProps) {
               <FormControl>
                 <FormLabel>Họ và tên</FormLabel>
                 <Input required autoFocus name="name"/>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Số điện thoại</FormLabel>
+                <Input required autoFocus name="phone" type="phone"/>
               </FormControl>
               <FormControl>
                 <FormLabel>Email</FormLabel>

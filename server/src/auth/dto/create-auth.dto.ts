@@ -11,6 +11,9 @@ export class CreateAuthDto {
   @IsNotEmpty({ message: 'Nhập lại mật khẩu không được để trống' })
   rePassword: string;
 
-  @IsOptional()
+  @IsNotEmpty({ message: 'Tên không được để trống' })
   name: string;
+
+  @IsNotEmpty({ message: 'Số điện thoại không được để trống' })
+  phone: string;
 }

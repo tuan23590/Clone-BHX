@@ -1,17 +1,18 @@
 "use client";
 import { Box, Button, ButtonGroup, Grid, Link, Typography } from "@mui/joy";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddressForm from "./addressForm";
 import { handleAddCartAction } from "@/action/cartAction";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { AppContext } from "@/context/AppProvider";
 
 type CartPageProps = {
   tinhs: any[];
   cart: IBackendRes<any> | null;
-  handleThanhToan: (shippingAddress: any) => Promise<boolean> | void;
+  handleThanhToan: (shippingAddress: any) => Promise<any>;
 };
 
 export default function CartPage({
@@ -19,6 +20,7 @@ export default function CartPage({
   cart,
   handleThanhToan,
 }: CartPageProps) {
+  const { openSnackbar } = useContext(AppContext);
   const [address, setAddress] = React.useState<any>(
     JSON.parse(localStorage.getItem("address") || "{}")
   );
@@ -49,7 +51,7 @@ export default function CartPage({
   }, [openAddressForm]);
   return (
     <Box>
-      {cart?.data.products.length > 0 && (
+      {cart?.data?.products.length > 0 && (
         <Box>
           <Box
             sx={{
@@ -328,12 +330,10 @@ export default function CartPage({
                 return;
               }
               const res = await handleThanhToan(address);
-              if (res) {
-                alert("Đặt hàng thành công");
-                window.location.href = "/";
-              } else {
-                alert("Đặt hàng thất bại");
-              }
+              if (res.data) {
+                openSnackbar({message: 'Đặt hàng thành công', color: 'success'});
+                // window.location.href = `/orders/${res.data._id}`;
+              } else openSnackbar({message: res.message, color: 'danger'});
             }}
             sx={{
               fontSize: 20,

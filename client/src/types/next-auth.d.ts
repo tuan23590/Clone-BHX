@@ -4,6 +4,7 @@ export interface IUser {
     name: string;
     email: string;
     access_token: string;
+    phone: string;
 }
 declare module "next-auth/jwt" {
     /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
