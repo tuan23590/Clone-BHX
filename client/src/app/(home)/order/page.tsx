@@ -2,7 +2,7 @@
 
 import { handleGetOrderstAction } from "@/action/ordersActions";
 import { auth } from "@/auth";
-import OrderPage from "@/components/home/order/page";
+import OrderPage from "@/components/home/order/listOrder";
 
 export default async function page() {
   const session = await auth();

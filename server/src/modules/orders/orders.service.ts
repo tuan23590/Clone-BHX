@@ -48,13 +48,45 @@ export class OrdersService {
 
   async findAll(phone: string) {
     const listOrder = await this.orderModel
-      .findOne({ 'shippingAddress.phone': phone })
+      .find({ 'shippingAddress.phone': phone })
       .populate('products.productId');
     if (!listOrder) {
       throw new BadRequestException('Không tìm thấy đơn hàng');
     }
-    const { products, shippingAddress, status, totalAmount, totalPirce } =
-      listOrder as any;
+    const customListOrder = listOrder.map((order) => {
+      const { products, status, totalAmount, totalPirce,createdAt,_id} =
+        order as any;
+        console.log('order', order);
+      const fillterOrder = products.map((product) => {
+        const { variationId } = product;
+        const { variations } = product.productId as any;
+        const variation = variations.find(
+          (variation) => String(variation._id) === String(variationId),
+        );
+        return {
+          variation
+        };
+      });
+      return {
+        products: fillterOrder,
+        status,
+        totalPirce,
+        createdAt,
+        _id
+      };
+    });
+    return customListOrder;
+  }
+
+  async findOne(_id: string) {
+    const order = await this.orderModel
+      .findById(_id)
+      .populate('products.productId');
+    if (!order) {
+      throw new BadRequestException('Không tìm thấy đơn hàng');
+    }
+    const { products, shippingAddress, status, totalAmount, totalPirce,createdAt} =
+      order as any;
     const fillterOrder = products.map((product) => {
       const { quantity, variationId } = product;
       const { variations, category, _id } = product.productId as any;
@@ -66,6 +98,7 @@ export class OrdersService {
         variation,
         category,
         _id,
+        sumPrice: quantity * variation.price,
       };
     });
     return {
@@ -74,11 +107,9 @@ export class OrdersService {
       status,
       totalAmount,
       totalPirce,
+      createdAt,
+      _id: order._id,
     };
-  }
-
-  findOne(_id: string) {
-    return `This action returns a #${_id} order`;
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

@@ -105,12 +105,12 @@ export default function HomeHeader({
           >
             <Dropdown>
               <MenuButton
-                fullWidth
                 color="success"
                 variant="soft"
                 sx={{
                   height: 45,
                   fontSize: 16,
+                  width: 300,
                 }}
               >
                 <PersonOutlineOutlinedIcon sx={{ color: "green" }} />
