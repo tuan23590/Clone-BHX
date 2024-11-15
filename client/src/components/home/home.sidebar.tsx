@@ -38,7 +38,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
       borderColor: "divider",
       backgroundColor: 'white',
     }}>
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <Box key={category._id} sx={{borderBottom: "1px solid", borderColor: "divider"}}>
           <Toggler
             renderToggle={({ open, setOpen }) => (
@@ -71,7 +71,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
                 padding: 0,
               },
              }}>
-              {category.subCategories.map((subCategory) => (
+              {category?.subCategories.map((subCategory) => (
                 <ListItem key={subCategory._id}>
                   <ListItemButton>
                     <Link href={`/${subCategory._id}`} 
