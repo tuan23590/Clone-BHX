@@ -12,9 +12,10 @@ export default function HomeContent({ listCategories }: ListCategoriesProps) {
   const [modifiedListCategories, setModifiedListCategories] = React.useState<
     any[]
   >([]);
+  const listCategories_temp = listCategories || [];
   useEffect(() => {
     setModifiedListCategories(
-      listCategories.map((category) => {
+      listCategories_temp.map((category) => {
         const products = category.products.slice(0, 5);
         products.forEach((product: any) => {
           product.variations = product.variations.slice(0, 1);
