@@ -30,8 +30,7 @@ type HomeSidebarProps = {
 };
 
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
-  const [cate, setCate] = React.useState<any>([]);
-
+  const [cate, setCate] = React.useState<any[]>([]);
   useEffect(() => {
     setCate(categories);
   }, []);
@@ -43,7 +42,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
       borderColor: "divider",
       backgroundColor: 'white',
     }}>
-      {cate.map((category: any) => (
+      {categories && cate.map((category: any) => (
         <Box key={category._id} sx={{borderBottom: "1px solid", borderColor: "divider"}}>
           <Toggler
             renderToggle={({ open, setOpen }) => (
