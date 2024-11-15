@@ -14,6 +14,10 @@ type ListCategoriesProps = {
 export default function ListCategories({
   listCategories,
 }: ListCategoriesProps) {
+  const [categories, setCategories] = React.useState<any>([]);
+  React.useEffect(() => {
+    setCategories(listCategories);
+  }, []);
   return (
     <Stack
       direction={"row"}
@@ -28,7 +32,7 @@ export default function ListCategories({
         scrollbarWidth: "thin",
       }}
     >
-      {listCategories.map((category: any) => (
+      {categories.map((category: any) => (
         <Box
           key={category._id}
           sx={{
