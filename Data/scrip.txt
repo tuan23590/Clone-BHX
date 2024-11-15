@@ -1,0 +1,3 @@
+.\mongodump.exe --uri "mongodb://root:123456@localhost:27017/bhxdb?authSource=admin" -o C:\Users\coura\OneDrive\Desktop\BHX-Clone\Data
+
+mongorestore --uri "mongodb+srv://Admin:MYPASS@appcluster.15lf4.mongodb.net/mytestdb" ./mongo-backup/mytestdb

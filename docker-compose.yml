@@ -27,4 +27,6 @@ volumes:
 
 # docker-compose build
 # docker-compose up -d
-
+# docker login
+# docker tag bhx-clone-nestjs-app:latest tuan23590/clone-bhx-backend:latest
+# docker push tuan23590/clone-bhx-backend:latest
