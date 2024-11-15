@@ -32,7 +32,7 @@ export default function ListCategories({
         scrollbarWidth: "thin",
       }}
     >
-      {categories.map((category: any) => (
+      {listCategories && categories.map((category: any) => (
         <Box
           key={category._id}
           sx={{
