@@ -75,7 +75,7 @@ export class OrdersService {
         _id
       };
     });
-    return customListOrder;
+    return customListOrder.sort((a,b)=>b.createdAt-a.createdAt);
   }
 
   async findOne(_id: string) {

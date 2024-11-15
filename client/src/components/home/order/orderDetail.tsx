@@ -1,5 +1,6 @@
 "use client";
 
+import { formatDateTime } from "@/utils/fomart";
 import { Box, Divider, Grid, Typography } from "@mui/joy";
 
 type OrderDetailProps = {
@@ -63,7 +64,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
           Trạng thái: <b>{order.status}</b>
         </Typography>
         <Typography>
-          Ngày đặt hàng: <b>{order.createdAt}</b>
+          Ngày đặt hàng: <b>{formatDateTime(order.createdAt)}</b>
         </Typography>
         <Typography>
           Địa chỉ giao hàng: <b>{order.shippingAddress.address}</b>

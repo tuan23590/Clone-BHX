@@ -2,6 +2,7 @@
 
 import { Box, Link, Typography } from "@mui/joy";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { formatDateTime } from "@/utils/fomart";
 
 export default function OrderPage({ listOrders }: { listOrders: any }) {
   return (
@@ -29,7 +30,7 @@ export default function OrderPage({ listOrders }: { listOrders: any }) {
             }}
           >
             <Typography>
-              Ngày đặt: <b>{order.createdAt}</b>
+              Ngày đặt: <b>{formatDateTime(order.createdAt)}</b>
             </Typography>
             <Typography>
               Trạng thái: <b>{order.status}</b>

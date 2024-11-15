@@ -14,7 +14,7 @@ export const handleGetAllSubCategoriesAction = async () => {
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/sub-categories`,
       nextOption: {
-        cache: 'no-store',
+        next: {revalidate: 60}
       },
     },
   ); 
