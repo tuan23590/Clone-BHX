@@ -22,18 +22,9 @@ services:
       - mongodb
     environment:
       - MONGODB_URI=mongodb://root:123456@mongodb:27017/bhxdb?authSource=admin
-      - PORT=4000
-
-  # nextjs-app:
-  #   build:
-  #     context: ./client  # Thư mục chứa Dockerfile của Next.js
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - nestjs-app
 volumes:
   mongodb_data_container:
 
 # docker-compose build
 # docker-compose up -d
+

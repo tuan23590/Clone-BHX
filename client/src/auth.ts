@@ -5,6 +5,7 @@ import { sendRequest } from "./utils/api";
 import { IUser } from "./types";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
@@ -59,5 +60,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     authorized: async ({ auth }) => {
       return!!auth;
     },
-  },
+  }
 });

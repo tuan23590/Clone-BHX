@@ -4,9 +4,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN npm uninstall bcrypt
+
 RUN npm install
 
-RUN npm uninstall bcrypt
 RUN npm i bcrypt
 
 COPY . .
