@@ -9,7 +9,7 @@ import {
   ListItemContent,
   Typography,
 } from "@mui/joy";
-import React from "react";
+import React, { useEffect } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Toggler from "../Toggler";
 
@@ -30,6 +30,11 @@ type HomeSidebarProps = {
 };
 
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
+  const [cate, setCate] = React.useState<any>([]);
+
+  useEffect(() => {
+    setCate(categories);
+  }, []);
   return (
     <Box sx={{
       maxHeight: "90vh", overflowX: "auto", width: '100%',
@@ -38,7 +43,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
       borderColor: "divider",
       backgroundColor: 'white',
     }}>
-      {categories?.map((category) => (
+      {cate.map((category: any) => (
         <Box key={category._id} sx={{borderBottom: "1px solid", borderColor: "divider"}}>
           <Toggler
             renderToggle={({ open, setOpen }) => (
@@ -71,7 +76,7 @@ export default function HomeSidebar({ categories }: HomeSidebarProps) {
                 padding: 0,
               },
              }}>
-              {category?.subCategories.map((subCategory) => (
+              {category?.subCategories.map((subCategory: any) => (
                 <ListItem key={subCategory._id}>
                   <ListItemButton>
                     <Link href={`/${subCategory._id}`} 
