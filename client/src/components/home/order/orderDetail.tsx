@@ -31,11 +31,11 @@ type OrderDetailProps = {
 };
 
 export default function OrderDetail({ order }: OrderDetailProps) {
-  console.log(order);
+  const isPhone = window.innerWidth < 600;
   return (
     <Box
       sx={{
-        maxHeight: "88vh",
+        maxHeight: { xs: "auto", sm: "80vh" },
         overflow: "auto",
         scrollbarWidth: "thin",
       }}
@@ -98,7 +98,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                 <img
                   src={product.variation.image}
                   alt="product"
-                  style={{ width: "100px", height: "100px" }}
+                  style={{ width: isPhone ? '50px':'100px', height: isPhone ? '50px':'100px' }}
                 />
               </Grid>
               <Grid xs={7}>

@@ -8,6 +8,7 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const isPhone = window.innerWidth < 600;
 
   const handleScroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -85,7 +86,7 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
         >
           <ArrowForwardIcon color="success" />
         </IconButton>
-        <img src={listImage[currentIndex]} alt="product" width={400}/>
+        <img src={listImage[currentIndex]} alt="product" width={ isPhone ? "100%" : 400} />
       </Box>
       <Stack
         direction="row"
@@ -135,10 +136,13 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
                   opacity: 1,
                   border: "2px solid #81c784",
                 },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onClick={() => setCurrentIndex(index)}
             >
-              <img src={image} alt="product" width={100} />
+              <img src={image} alt="product" width={isPhone ? 50 : 100} />
             </Box>
           ))}
         </Box>

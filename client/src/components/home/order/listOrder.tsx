@@ -5,10 +5,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { formatDateTime } from "@/utils/fomart";
 
 export default function OrderPage({ listOrders }: { listOrders: any }) {
+  const isPhone = window.innerWidth < 600;
   return (
     <Box
       sx={{
-        height: "88vh",
+        height: {xs: "auto", sm: "88vh"},
         overflow: "auto",
         scrollbarWidth: "thin",
       }}
@@ -61,7 +62,7 @@ export default function OrderPage({ listOrders }: { listOrders: any }) {
                 <img
                   src={product.variation.image}
                   alt={product.variation.name}
-                  width={100}
+                  width={isPhone ? 50 : 100}
                   style={{
                     border: "1px solid #f0f0f0",
                     marginRight: 10,
@@ -75,8 +76,8 @@ export default function OrderPage({ listOrders }: { listOrders: any }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: 100,
-                  height: 100,
+                  width: isPhone ? 50 : 100,
+                  height: isPhone ? 50 : 100,
                   border: "1px solid #f0f0f0",
                 }}
               >

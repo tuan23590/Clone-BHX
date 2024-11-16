@@ -11,6 +11,8 @@ export const AppContext = createContext({
     message: string;
     color: SnackbarProps["color"];
   }) => {},
+  setOpenSidebar: (open: boolean) => {},
+  openSidebar: true,
 });
 
 export default function AppProvider({
@@ -18,6 +20,7 @@ export default function AppProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [openSidebar, setOpenSidebar] = React.useState<boolean>(true);
   const [open, setOpen] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>("");
   const [color, setColor] = React.useState<SnackbarProps["color"]>("neutral");
@@ -49,7 +52,7 @@ export default function AppProvider({
     setOpen(true);
   };
   return (
-    <AppContext.Provider value={{ openSnackbar }}>
+    <AppContext.Provider value={{ openSnackbar, setOpenSidebar, openSidebar }}>
       <Snackbar
         variant="solid"
         color={color}

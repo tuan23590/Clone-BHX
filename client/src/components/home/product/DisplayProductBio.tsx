@@ -6,7 +6,6 @@ import { Typography, Button, Box } from "@mui/joy";
 export default function DisplayProductBio({ productBio }: { productBio: any }) {
   const [showFullContent, setShowFullContent] = useState(false);
   const specifications = productBio.featureSpecification.split(/<br\s*\/?>/);
-
   const toggleContent = () => {
     setShowFullContent((prev) => !prev);
   };

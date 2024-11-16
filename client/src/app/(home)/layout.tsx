@@ -40,7 +40,6 @@ export default async function RootLayout({
               }}>
               <HomeHeader carts={carts} session={session}/>
               <Container sx={{ padding: "0px 0px !important",
-                height: "90vh",
               }}>
                 <Grid container columnSpacing={2}>
                   <Grid sm={3}>

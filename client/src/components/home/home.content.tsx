@@ -25,14 +25,13 @@ export default function HomeContent({ listCategories }: ListCategoriesProps) {
     );
   }, []);
   return (
-    <Box>
+    <Box sx={{
+      height: { xs: "auto", sm: "88vh" },
+                overflowX: "auto",
+          scrollbarWidth: "thin",
+    }}>
       <ListCategories listCategories={listCategories} />
       <Box
-        sx={{
-          height: "75vh",
-          overflowX: "auto",
-          scrollbarWidth: "thin",
-        }}
       >
         {modifiedListCategories.map(
           (category) =>

@@ -64,15 +64,17 @@ export default function CartPage({
           >
             <Typography level="h3">Giỏ hàng</Typography>
           </Box>
+
           {cart?.data?.products.length !== 0 && (
             <Box
               sx={{
-                maxHeight: "78vh",
+                maxHeight: { xs: "65vh", md: "80vh" }, // Chiều cao điều chỉnh theo thiết bị
                 overflow: "auto",
                 scrollbarWidth: "thin",
               }}
             >
               <Box>
+                {/* Địa chỉ giao hàng */}
                 <Box
                   sx={{
                     backgroundColor: "white",
@@ -119,6 +121,8 @@ export default function CartPage({
                     </Button>
                   )}
                 </Box>
+
+                {/* Danh sách sản phẩm */}
                 <Box
                   sx={{
                     backgroundColor: "white",
@@ -129,7 +133,7 @@ export default function CartPage({
                   <Typography level="h4">Danh sách sản phẩm</Typography>
                   <Box
                     sx={{
-                      height: "51vh",
+                      height: { xs: "45vh", md: "51vh" }, // Điều chỉnh chiều cao cho thiết bị nhỏ hơn
                       overflow: "auto",
                       scrollbarWidth: "thin",
                     }}
@@ -142,9 +146,11 @@ export default function CartPage({
                           padding: 1,
                         }}
                       >
-                        <Grid container>
+                        <Grid container spacing={1}>
+                          {/* Hình ảnh sản phẩm */}
                           <Grid
-                            xs={2}
+                            xs={3} // Chiếm ít hơn trên điện thoại
+                            md={2}
                             sx={{
                               position: "relative",
                             }}
@@ -174,9 +180,15 @@ export default function CartPage({
                                   );
                               }}
                             />
-                            <img src={product.variation.image} width={"100%"} />
+                            <img
+                              src={product.variation.image}
+                              width={"100%"}
+                              style={{ objectFit: "cover" }}
+                            />
                           </Grid>
-                          <Grid xs={8}>
+
+                          {/* Tên sản phẩm */}
+                          <Grid xs={6} md={8}>
                             <Link
                               href={`/${product.category}/${product.variation._id}`}
                               underline="none"
@@ -186,8 +198,11 @@ export default function CartPage({
                               </Typography>
                             </Link>
                           </Grid>
+
+                          {/* Thông tin giá và số lượng */}
                           <Grid
-                            xs={2}
+                            xs={3}
+                            md={2}
                             sx={{
                               display: "flex",
                               flexDirection: "column",
@@ -244,127 +259,66 @@ export default function CartPage({
                       </Box>
                     ))}
                   </Box>
-                  {cart?.data?.products.length > 0 && (
-                    <Typography
-                      mt={1}
-                      textAlign="end"
-                      level="body-md"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "end",
-                        alignItems: "center",
-                        cursor: "pointer",
-                        "&:hover": {
-                          ".icon": {
-                            color: "red",
-                          },
-                          color: "red",
-                        },
-                      }}
-                      onClick={() => {
-                        const confirm = window.confirm(
-                          "Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng không?"
-                        );
-                        if (confirm) handleChageQuantity("", "", "all");
-                      }}
-                    >
-                      <DeleteOutlineIcon
-                        className="icon"
-                        sx={{ fontSize: 20, mr: 0.2 }}
-                      />
-                      Xóa hết giỏ hàng
-                    </Typography>
-                  )}
                 </Box>
               </Box>
             </Box>
           )}
-        </Box>
-      )}
-      <Box
-        sx={{
-          backgroundColor: "white",
-        }}
-      >
-        {!cart?.data && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "20vh",
-              flexDirection: "column",
-            }}
-          >
-            <Typography textAlign="center" level="h4">
-              Giỏ hàng trống
-            </Typography>
-            <Link href="/" underline="none">
-              <Button variant="solid" color="success" sx={{ mt: 1 }}>
-                Tiếp tục mua hàng
-              </Button>
-            </Link>
-          </Box>
-        )}
-      </Box>
-      {cart?.data && cart?.data?.products.length > 0 && (
-        <Box
-          sx={{
-            position: "absolute",
-            width: 896,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingX: 1,
-            backgroundColor: "white",
-            borderTop: "1px solid #f0f0f0",
-          }}
-        >
-          <Button
-            variant="solid"
-            color="success"
-            fullWidth
-            onClick={async () => {
-              if (!address.name) {
-                alert("Vui lòng chọn địa chỉ giao hàng");
-                return;
-              }
-              const res = await handleThanhToan(address);
-              if (res.data) {
-                openSnackbar({message: 'Đặt hàng thành công', color: 'success'});
-                // window.location.href = `/orders/${res.data._id}`;
-              } else openSnackbar({message: res.message, color: 'danger'});
-            }}
-            sx={{
-              fontSize: 20,
-              backgroundImage:
-                "radial-gradient(circle, #98c230 0%, #59a646 49%, #22994f 75%, #007e42 100%)",
-              backgroundSize: "200% 200%",
-              animation: "gradientAnimation 5s ease infinite", // Thời gian và kiểu lặp
-              color: "#fff",
-              "@keyframes gradientAnimation": {
-                "0%": {
-                  backgroundPosition: "0% 0%",
-                },
-                "50%": {
-                  backgroundPosition: "100% 100%",
-                },
-                "100%": {
-                  backgroundPosition: "0% 0%",
-                },
-              },
-            }}
-          >
-            <ShoppingCartIcon
+
+          {/* Footer */}
+          {cart?.data && cart?.data?.products.length > 0 && (
+            <Box
               sx={{
-                marginRight: 1,
+                position: "sticky",
+                bottom: 0,
+                backgroundColor: "white",
+                padding: 1,
+                borderTop: "1px solid #f0f0f0",
+                textAlign: "center",
               }}
-            />
-            Đặt hàng
-            <span style={{ marginLeft: 10 }}>
-              {cart?.data?.totalPirce.toLocaleString()}đ
-            </span>
-          </Button>
+            >
+              <Button
+                variant="solid"
+                color="success"
+                fullWidth
+                onClick={async () => {
+                  if (!address.name) {
+                    alert("Vui lòng chọn địa chỉ giao hàng");
+                    return;
+                  }
+                  const res = await handleThanhToan(address);
+                  if (res.data) {
+                    openSnackbar({
+                      message: "Đặt hàng thành công",
+                      color: "success",
+                    });
+                  } else
+                    openSnackbar({ message: res.message, color: "danger" });
+                }}
+                sx={{
+                  fontSize: 20,
+                  backgroundImage:
+                    "radial-gradient(circle, #98c230 0%, #59a646 49%, #22994f 75%, #007e42 100%)",
+                  backgroundSize: "200% 200%",
+                  animation: "gradientAnimation 5s ease infinite", // Thời gian và kiểu lặp
+                  color: "#fff",
+                  "@keyframes gradientAnimation": {
+                    "0%": {
+                      backgroundPosition: "0% 0%",
+                    },
+                    "50%": {
+                      backgroundPosition: "100% 100%",
+                    },
+                    "100%": {
+                      backgroundPosition: "0% 0%",
+                    },
+                  },
+                }}
+              >
+                <ShoppingCartIcon sx={{ marginRight: 1 }} />
+                Đặt hàng ({cart?.data?.totalPirce.toLocaleString()}đ)
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
     </Box>
