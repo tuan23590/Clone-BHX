@@ -3,9 +3,13 @@
 import { Box, Link, Typography } from "@mui/joy";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { formatDateTime } from "@/utils/fomart";
+import React from "react";
 
 export default function OrderPage({ listOrders }: { listOrders: any }) {
-  const isPhone = window.innerWidth < 600;
+  const [isPhone, setIsPhone] = React.useState(false);
+  React.useEffect(() => {
+    setIsPhone(window.innerWidth < 600);
+  }, []);
   return (
     <Box
       sx={{

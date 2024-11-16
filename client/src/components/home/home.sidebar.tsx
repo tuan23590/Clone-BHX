@@ -36,8 +36,9 @@ type HomeSidebarProps = {
 export default function HomeSidebar({ categories }: HomeSidebarProps) {
   const [cate, setCate] = React.useState<any[]>([]);
   const {openSidebar,setOpenSidebar} = useContext(AppContext);
-  const isPhone = window.innerWidth < 600;
+  const [isPhone, setIsPhone] = React.useState(false);
   useEffect(() => {
+    setIsPhone(window.innerWidth < 600);
     setCate(categories);
     if(window.innerWidth < 600){
       setOpenSidebar(false);

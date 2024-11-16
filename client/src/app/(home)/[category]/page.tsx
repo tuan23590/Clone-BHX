@@ -1,3 +1,4 @@
+"use server"
 import { handleGetSubCategoriesAction } from "@/action/subCategoryAction"
 import CategoryPage from "@/components/home/category/category"
 

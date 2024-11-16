@@ -21,8 +21,7 @@ export default function CartPage({
   handleThanhToan,
 }: CartPageProps) {
   const { openSnackbar } = useContext(AppContext);
-  const [address, setAddress] = React.useState<any>(
-    JSON.parse(localStorage.getItem("address") || "{}")
+  const [address, setAddress] = React.useState<any>({}
   );
   const [openAddressForm, setOpenAddressForm] = React.useState<boolean>(false);
   const handleChageQuantity = (
@@ -49,9 +48,13 @@ export default function CartPage({
   useEffect(() => {
     setAddress(JSON.parse(localStorage.getItem("address") || "{}"));
   }, [openAddressForm]);
+  useEffect(() => {
+    setAddress(JSON.parse(localStorage.getItem("address") || "{}"));
+  }
+  , []);
   return (
     <Box>
-      {cart?.data?.products.length > 0 && (
+      {cart?.data?.products.length > 0 ? (
         <Box>
           <Box
             sx={{
@@ -320,7 +323,24 @@ export default function CartPage({
             </Box>
           )}
         </Box>
-      )}
+      ): (
+       <Box textAlign="center" sx={{
+          height: "20vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+       }}>
+          <Typography level="h3">Giỏ hàng trống</Typography>
+          <Link href="/" underline="none" mt={2}>
+            <Button variant="solid" color="success">
+              Quay lại trang chủ
+            </Button>
+          </Link>
+        </Box>
+      )  
+      }
     </Box>
   );
 }

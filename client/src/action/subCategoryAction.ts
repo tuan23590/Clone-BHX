@@ -1,11 +1,13 @@
 "use server";
 import { sendRequest } from "@/utils/api";
+import { notFound } from "next/navigation";
 
 export const handleGetSubCategoriesAction = async (_id: string) => {
     const res = await sendRequest<IBackendRes<any>>({
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/sub-categories/${_id}`,
     });
+    if (!res.data) notFound();
     return res;
   };
   

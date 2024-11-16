@@ -8,8 +8,10 @@ export default function SlideShow({ listImage }: { listImage: string[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-  const isPhone = window.innerWidth < 600;
-
+  const [isPhone, setIsPhone] = React.useState(false);
+  React.useEffect(() => {
+    setIsPhone(window.innerWidth < 600);
+  }, []);
   const handleScroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const scrollAmount = 250; // Khoảng cách để cuộn mỗi lần

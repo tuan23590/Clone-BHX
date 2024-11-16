@@ -22,7 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { signOut } from "next-auth/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "@/context/AppProvider";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 
@@ -34,7 +34,10 @@ export default function HomeHeader({
   session: any;
 }) {
   const { openSidebar, setOpenSidebar } = useContext(AppContext);
-  const isPhone = window.innerWidth < 600;
+  const [isPhone, setIsPhone] = React.useState(false);
+  React.useEffect(() => {
+    setIsPhone(window.innerWidth < 600);
+  }, []);
   return (
     <Box
       sx={{

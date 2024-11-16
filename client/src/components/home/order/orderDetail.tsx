@@ -2,6 +2,7 @@
 
 import { formatDateTime } from "@/utils/fomart";
 import { Box, Divider, Grid, Typography } from "@mui/joy";
+import React from "react";
 
 type OrderDetailProps = {
   order: {
@@ -31,7 +32,10 @@ type OrderDetailProps = {
 };
 
 export default function OrderDetail({ order }: OrderDetailProps) {
-  const isPhone = window.innerWidth < 600;
+  const [isPhone, setIsPhone] = React.useState(false);
+  React.useEffect(() => {
+    setIsPhone(window.innerWidth < 600);
+  }, []);
   return (
     <Box
       sx={{
