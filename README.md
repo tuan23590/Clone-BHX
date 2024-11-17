@@ -84,7 +84,7 @@ The **backend** is built using the [NestJS](https://nestjs.com/) framework, know
 ---
 
 ## Demo
-A live demo of the project is available at: [HERE](https://clone-bhx.vercel.app/)
+A live demo of the project is available at: [https://clone-bhx.vercel.app](https://clone-bhx.vercel.app/)
 - If the website is not responding, please wait 1 minute and refresh the page because you need to wait for the backend to start
 Use the following test credentials to log in:
 - **Email**: demo@minimals.cc
