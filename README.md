@@ -1,28 +1,17 @@
-# Clone Bach Hoa Xanh
+# Project Documentation
 
 ## Overview
-This project consists of a **frontend** and **backend** built with modern frameworks and technologies to deliver a robust, scalable web application.
-
----
-
-## Table of Contents
-1. [Technologies Used](#technologies-used)
-2. [Frontend](#frontend)
-3. [Backend](#backend)
-4. [Demo](#Demo)
-4. [Setup](#setup)
-5. [Development Scripts](#development-scripts)
-
----
+This project consists of a **frontend** and **backend**, built with modern frameworks and technologies to deliver a robust, scalable web application. The frontend leverages Next.js **App Router** and **Auth.js** (formerly NextAuth.js) for seamless routing and authentication.
 
 ---
 
 ## Technologies Used
 
 ### Frontend
-- **Next.js**: Framework for server-rendered React applications.
+- **Next.js (App Router)**: Framework for server-rendered React applications.
+- **Auth.js**: Authentication library for user login and session management.
 - **React**: Library for building user interfaces.
-- **Material-UI**: Component library for styling.
+- **Material-UI (MUI)**: Component library for styling.
 - **TypeScript**: Strongly typed JavaScript.
 
 ### Backend
@@ -31,24 +20,35 @@ This project consists of a **frontend** and **backend** built with modern framew
 - **Passport**: Middleware for authentication.
 - **JWT**: Token-based authentication.
 - **Nodemailer**: Email sending utility.
+- **TypeScript**: Strongly typed JavaScript.
 
 ---
 
+## Table of Contents
+1. [Technologies Used](#technologies-used)
+2. [Frontend](#frontend)
+3. [Backend](#backend)
+4. [Demo](#demo)
+5. [Setup](#setup)
+6. [Development Scripts](#development-scripts)
 
+---
 
 ## Frontend
-The **frontend** is built with [Next.js](https://nextjs.org/), a React framework that provides server-side rendering and static site generation.
+The **frontend** is built with [Next.js](https://nextjs.org/), a React framework, and uses the **App Router** for better routing flexibility. Authentication is implemented with [Auth.js](https://authjs.dev/) to handle secure user login and sessions.
 
 ### Features
-- Modern UI with [Material-UI](https://mui.com/).
-- Authentication with [NextAuth.js](https://next-auth.js.org/).
-- TypeScript support for type safety.
-- State and query management using libraries like `query-string`.
+- **Next.js App Router** for optimized routing and layouts.
+- Authentication using **Auth.js**, supporting providers like Google, email, and custom credentials.
+- Modern UI powered by **Material-UI (MUI)**.
+- TypeScript for type safety.
+- Integration with API endpoints for dynamic data handling.
 
 ### Directory Structure
-- **`pages/`**: Contains all the page components.
+- **`app/`**: Contains the App Router structure for pages, layouts, and API routes.
 - **`components/`**: Reusable UI components.
 - **`styles/`**: Global and modular styles.
+- **`lib/auth.js`**: Authentication configuration for Auth.js.
 
 ### Key Scripts
 - `dev`: Starts the development server.
@@ -63,9 +63,9 @@ The **backend** is built using the [NestJS](https://nestjs.com/) framework, know
 
 ### Features
 - RESTful API endpoints.
-- Authentication with JWT and Passport strategies.
-- MongoDB integration using Mongoose.
-- Email sending via Nodemailer and Handlebars templates.
+- Authentication using JWT and Passport strategies.
+- MongoDB integration via Mongoose.
+- Email sending via Nodemailer with Handlebars templates.
 - Code linting with ESLint and formatting with Prettier.
 - End-to-end testing with Jest.
 
@@ -83,13 +83,19 @@ The **backend** is built using the [NestJS](https://nestjs.com/) framework, know
 
 ---
 
-
 ## Demo
+A live demo of the project is available at: [Demo URL](https://your-demo-url.com)  
+Use the following test credentials to log in:
+- **Email**: test@example.com
+- **Password**: password123
+![image](https://github.com/user-attachments/assets/aa7d78bc-4ce6-4fec-983d-b4cb99c899ad)
+![image](https://github.com/user-attachments/assets/3d6633ef-6697-4fb1-8fa5-8cac0ef42689)
+![image](https://github.com/user-attachments/assets/05fdf85c-db54-4d0c-b49e-01ff4e19414a)
+![image](https://github.com/user-attachments/assets/fbc54975-db7d-4ab2-a6f9-8844149519be)
+![image](https://github.com/user-attachments/assets/dfd683e7-c8ef-49de-8627-4cd0b0c48568)
+![image](https://github.com/user-attachments/assets/159666e2-73f1-4794-a5d5-ca64ea13b6ce)
 
-Insert gif or link to demo
-
-
-
+---
 
 ## Setup
 
@@ -118,8 +124,14 @@ Insert gif or link to demo
    Ensure MongoDB is running locally or configure the connection string in the `.env` file.
 
 4. **Configure environment variables**:
-   - For the frontend: Add a `.env.local` file.
-   - For the backend: Add a `.env` file based on the `.env.example` file.
+   - Frontend: Add a `.env.local` file. Example:
+     ```env
+     NEXTAUTH_URL=http://localhost:3000
+     NEXTAUTH_SECRET=your-secret-key
+     GOOGLE_CLIENT_ID=your-google-client-id
+     GOOGLE_CLIENT_SECRET=your-google-client-secret
+     ```
+   - Backend: Add a `.env` file based on the `.env.example` file.
 
 5. **Run the application**:
    - Frontend: 
@@ -151,4 +163,3 @@ Insert gif or link to demo
 | `npm run build`       | Compiles the backend code.                |
 | `npm run lint`        | Lints the backend code.                   |
 | `npm run test`        | Runs all tests.                           |
-
