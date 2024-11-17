@@ -23,8 +23,9 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const isEmailExist = await this.isEmailExist(createUserDto.email);
-    if (isEmailExist)
-      throw new BadRequestException(`Email ${createUserDto.email} đã tồn tại`);
+    const isPhoneExist = await this.isPhoneExist(createUserDto.phone);
+    if (isEmailExist || isPhoneExist)
+      throw new BadRequestException(`Email hoặc số điện thoại đã tồn tại`);
 
     const hashPW = await hashPassword(createUserDto.password);
     createUserDto.password = hashPW;
@@ -118,6 +119,11 @@ export class UsersService {
 
   async isEmailExist(email: string) {
     const user = await this.userModel.exists({ email });
+    return user ? true : false;
+  }
+
+  async isPhoneExist(phone: string) {
+    const user = await this.userModel.exists({ phone });
     return user ? true : false;
   }
 
